@@ -1,7 +1,13 @@
+## 0.1.0-alpha7
+
+### Features
+* **GenerationConfig**: Control LLM generation parameters (temperature, top_p, max_tokens, etc.) via optional `config` parameter on all `XybridModel` run and streaming methods
+* **GenerationConfig presets**: `GenerationConfig.greedy()` and `GenerationConfig.creative()` named constructors for common configurations
+
 ## 0.1.0-alpha6
 
 ### Features
-- _TODO: Fill in highlights for this release_
+* Xybrid Studio video polish and UI improvements
 
 ## 0.1.0-alpha5
 

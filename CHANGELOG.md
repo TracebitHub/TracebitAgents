@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0-alpha7] - 2026-02-18
+
+### Added
+- **GenerationConfig SDK propagation**: Surfaced `GenerationConfig` (temperature, top_p, max_tokens, min_p, top_k, repetition_penalty, stop_sequences) through all three SDK bindings
+  - Flutter/Dart: `GenerationConfig` class with `greedy()` / `creative()` presets, optional `config` parameter on all run/streaming methods
+  - Kotlin/Android: `XybridGenerationConfig` UniFFI Record with `GenerationConfigs.greedy()` / `creative()` presets
+  - Unity/C#: `GenerationConfig : IDisposable` with opaque handle pattern, setter methods, `Greedy()` / `Creative()` factories
+
+### Fixed
+- Rust SDK `run_async()` now accepts `Option<&GenerationConfig>` (was hard-coded to `None`, blocking Kotlin config passthrough)
+
+---
+
 ## [0.1.0-alpha6] - 2026-02-17
 
 ### Added

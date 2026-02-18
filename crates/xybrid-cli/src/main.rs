@@ -926,7 +926,7 @@ fn handle_repl_command(
                         // Execute with streaming callback via SDK
                         // Use context-aware streaming if conversation context is active
                         let streaming_result = if let Some(ref ctx) = conversation_context {
-                            model.run_streaming_with_context(&input, ctx, |token| {
+                            model.run_streaming_with_context(&input, ctx, None, |token| {
                                 print!("{}", token.token);
                                 io::stdout().flush()?;
                                 if let Ok(mut text) = text_clone.lock() {
@@ -935,7 +935,7 @@ fn handle_repl_command(
                                 Ok(())
                             })
                         } else {
-                            model.run_streaming(&input, |token| {
+                            model.run_streaming(&input, None, |token| {
                                 print!("{}", token.token);
                                 io::stdout().flush()?;
                                 if let Ok(mut text) = text_clone.lock() {
@@ -995,7 +995,7 @@ fn handle_repl_command(
 
                                 // Use context-aware streaming if conversation context is active
                                 let streaming_result = if let Some(ref ctx) = conversation_context {
-                                    model.run_streaming_with_context(&input, ctx, |token| {
+                                    model.run_streaming_with_context(&input, ctx, None, |token| {
                                         print!("{}", token.token);
                                         io::stdout().flush()?;
                                         if let Ok(mut text) = text_clone.lock() {
@@ -1004,7 +1004,7 @@ fn handle_repl_command(
                                         Ok(())
                                     })
                                 } else {
-                                    model.run_streaming(&input, |token| {
+                                    model.run_streaming(&input, None, |token| {
                                         print!("{}", token.token);
                                         io::stdout().flush()?;
                                         if let Ok(mut text) = text_clone.lock() {

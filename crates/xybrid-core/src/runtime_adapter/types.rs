@@ -268,11 +268,17 @@ pub struct LlmConfig {
     pub logging: bool,
 
     /// Number of threads for inference. 0 = auto-detect (uses all available cores).
-    #[serde(default)]
+    ///
+    /// On Android, defaults to 4 (performance cores only on big.LITTLE SoCs).
+    /// On other platforms, defaults to 0 (auto-detect).
+    #[serde(default = "default_n_threads")]
     pub n_threads: usize,
 
     /// Batch size for prompt processing. 0 = default (512).
-    #[serde(default)]
+    ///
+    /// On Android, defaults to 256 (reduced memory bandwidth pressure).
+    /// On other platforms, defaults to 0 (512).
+    #[serde(default = "default_n_batch")]
     pub n_batch: usize,
 
     /// Enable flash attention for faster inference on longer contexts.
@@ -300,6 +306,37 @@ fn default_gpu_layers() -> i32 {
     99
 }
 
+/// Platform-adaptive thread count.
+///
+/// On Android big.LITTLE SoCs (e.g., Pixel 8: 4x Cortex-X3 + 4x Cortex-A715),
+/// using all 8 cores causes thread contention — efficiency cores are much slower
+/// and drag down throughput. Using 4 threads targets only the performance cores.
+///
+/// On desktop/macOS/iOS, auto-detect (0) uses all cores effectively since they
+/// have uniform performance or GPU offloading handles the heavy lifting.
+fn default_n_threads() -> usize {
+    if cfg!(target_os = "android") {
+        4
+    } else {
+        0 // auto-detect
+    }
+}
+
+/// Platform-adaptive batch size for prompt processing.
+///
+/// On Android, memory bandwidth is limited — a batch size of 512 causes
+/// excessive memory traffic on 1B+ models. 256 is a good balance between
+/// prompt processing speed and memory pressure.
+///
+/// On desktop, 0 means the default (512) which is fine for higher-bandwidth systems.
+fn default_n_batch() -> usize {
+    if cfg!(target_os = "android") {
+        256
+    } else {
+        0 // default (512)
+    }
+}
+
 impl Default for LlmConfig {
     fn default() -> Self {
         Self {
@@ -309,8 +346,8 @@ impl Default for LlmConfig {
             gpu_layers: default_gpu_layers(),
             paged_attention: default_paged_attention(),
             logging: false,
-            n_threads: 0, // 0 = auto-detect
-            n_batch: 0,   // 0 = default (512)
+            n_threads: default_n_threads(),
+            n_batch: default_n_batch(),
             flash_attn: default_flash_attn(),
         }
     }
@@ -503,5 +540,19 @@ mod tests {
     fn test_llm_config_with_chat_template() {
         let config = LlmConfig::new("/path/to/model.gguf").with_chat_template("chatml".to_string());
         assert_eq!(config.chat_template, Some("chatml".to_string()));
+    }
+
+    #[test]
+    fn test_llm_config_platform_adaptive_defaults() {
+        let config = LlmConfig::default();
+        // On Android: n_threads=4, n_batch=256 (mobile-optimized)
+        // On other platforms: n_threads=0 (auto), n_batch=0 (default 512)
+        if cfg!(target_os = "android") {
+            assert_eq!(config.n_threads, 4);
+            assert_eq!(config.n_batch, 256);
+        } else {
+            assert_eq!(config.n_threads, 0);
+            assert_eq!(config.n_batch, 0);
+        }
     }
 }

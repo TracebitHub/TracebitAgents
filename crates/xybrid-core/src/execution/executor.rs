@@ -1692,8 +1692,9 @@ impl TemplateExecutor {
     ) -> ExecutorResult<Envelope> {
         use crate::ir::EnvelopeKind;
 
-        // Maximum chars per chunk (Kokoro's BERT encoder has ~512 token limit)
-        const MAX_TTS_CHARS: usize = 350;
+        // Use model-specific chunk limit if set, otherwise default
+        const DEFAULT_MAX_TTS_CHARS: usize = 350;
+        let max_tts_chars = metadata.max_chunk_chars.unwrap_or(DEFAULT_MAX_TTS_CHARS);
 
         let text = match &input.kind {
             EnvelopeKind::Text(t) => t.clone(),
@@ -1706,13 +1707,13 @@ impl TemplateExecutor {
 
         debug!(
             target: "xybrid_core",
-            "TTS Chunked: Input text length: {} chars (MAX_TTS_CHARS={})",
+            "TTS Chunked: Input text length: {} chars (max_chunk_chars={})",
             text.len(),
-            MAX_TTS_CHARS
+            max_tts_chars
         );
 
         // Check if chunking is needed
-        if text.len() <= MAX_TTS_CHARS {
+        if text.len() <= max_tts_chars {
             debug!(target: "xybrid_core", "TTS: Text is short enough, using single execution");
             // Single chunk - use normal path
             return self.execute_tts_single(metadata, input, model_path);
@@ -1725,7 +1726,7 @@ impl TemplateExecutor {
         );
 
         // Split text into chunks
-        let chunks = Self::chunk_text_for_tts(&text, MAX_TTS_CHARS);
+        let chunks = Self::chunk_text_for_tts(&text, max_tts_chars);
         debug!(target: "xybrid_core", "TTS: Split into {} chunks", chunks.len());
 
         // Process each chunk and collect audio
@@ -1764,7 +1765,15 @@ impl TemplateExecutor {
 
             // Extract audio from outputs
             if let Some(audio_tensor) = raw_outputs.values().next() {
-                let chunk_audio: Vec<f32> = audio_tensor.iter().cloned().collect();
+                let mut chunk_audio: Vec<f32> = audio_tensor.iter().cloned().collect();
+
+                // Trim trailing samples per chunk to remove artifacts
+                // (KittenTTS upstream trims 5000 samples ≈ 208ms at 24kHz per chunk)
+                let trim_count = metadata.trim_trailing_samples.unwrap_or(0);
+                if trim_count > 0 && chunk_audio.len() > trim_count {
+                    chunk_audio.truncate(chunk_audio.len() - trim_count);
+                }
+
                 audio_chunks.push(chunk_audio);
             }
         }
@@ -1827,7 +1836,18 @@ impl TemplateExecutor {
         // Create and run TTS session
         let session = ONNXSession::new(model_path.to_str().unwrap(), false, false)?;
         let speed = extract_tts_speed(input);
-        let raw_outputs = execute_tts_inference(&session, phoneme_ids, voice_embedding, speed)?;
+        let mut raw_outputs = execute_tts_inference(&session, phoneme_ids, voice_embedding, speed)?;
+
+        // Trim trailing samples to remove artifacts (same logic as chunked path)
+        let trim_count = metadata.trim_trailing_samples.unwrap_or(0);
+        if trim_count > 0 {
+            for audio in raw_outputs.values_mut() {
+                let len = audio.len();
+                if len > trim_count {
+                    audio.slice_collapse(ndarray::s![..len - trim_count]);
+                }
+            }
+        }
 
         // Run postprocessing
         self.run_postprocessing(metadata, RawOutputs::TensorMap(raw_outputs))

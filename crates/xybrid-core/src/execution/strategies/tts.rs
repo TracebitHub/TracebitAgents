@@ -144,7 +144,19 @@ impl TtsStrategy {
         // Create and run TTS session
         let session = ONNXSession::new(model_path.to_str().unwrap(), false, false)?;
         let speed = extract_tts_speed(input);
-        let raw_outputs = execute_tts_inference(&session, phoneme_ids, voice_embedding, speed)?;
+        let mut raw_outputs =
+            execute_tts_inference(&session, phoneme_ids, voice_embedding, speed)?;
+
+        // Trim trailing samples to remove artifacts
+        let trim_count = metadata.trim_trailing_samples.unwrap_or(0);
+        if trim_count > 0 {
+            for audio in raw_outputs.values_mut() {
+                let len = audio.len();
+                if len > trim_count {
+                    audio.slice_collapse(ndarray::s![..len - trim_count]);
+                }
+            }
+        }
 
         // Run postprocessing
         self.run_postprocessing(ctx, metadata, RawOutputs::TensorMap(raw_outputs))
@@ -246,7 +258,14 @@ impl TtsStrategy {
 
             // Extract audio from outputs
             if let Some(audio_tensor) = raw_outputs.values().next() {
-                let chunk_audio: Vec<f32> = audio_tensor.iter().cloned().collect();
+                let mut chunk_audio: Vec<f32> = audio_tensor.iter().cloned().collect();
+
+                // Trim trailing samples per chunk to remove artifacts
+                let trim_count = metadata.trim_trailing_samples.unwrap_or(0);
+                if trim_count > 0 && chunk_audio.len() > trim_count {
+                    chunk_audio.truncate(chunk_audio.len() - trim_count);
+                }
+
                 all_audio.extend(chunk_audio);
             }
         }
@@ -359,7 +378,10 @@ impl ExecutionStrategy for TtsStrategy {
         let model_file = Self::get_model_file(metadata)?;
         let model_path = ctx.resolve_path(model_file);
 
-        self.execute_chunked(ctx, metadata, input, &model_path)
+        // Use model-specific chunk limit if set in metadata
+        let max_chars = metadata.max_chunk_chars.unwrap_or(self.max_chars);
+        let strategy = TtsStrategy::with_max_chars(max_chars);
+        strategy.execute_chunked(ctx, metadata, input, &model_path)
     }
 
     fn name(&self) -> &'static str {

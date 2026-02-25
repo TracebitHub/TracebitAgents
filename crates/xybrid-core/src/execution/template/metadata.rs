@@ -201,6 +201,22 @@ pub struct ModelMetadata {
     /// Optional: Voice configuration for TTS models
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub voices: Option<VoiceConfig>,
+
+    /// Optional: Maximum text characters per TTS chunk.
+    ///
+    /// Overrides the default chunking limit (350 chars) for models that need
+    /// shorter sequences. Smaller models (e.g., KittenTTS nano with 15M params)
+    /// produce better quality with shorter chunks (150-200 chars).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub max_chunk_chars: Option<usize>,
+
+    /// Optional: Number of trailing audio samples to trim per TTS chunk.
+    ///
+    /// Some TTS models produce trailing artifacts at the end of each chunk.
+    /// KittenTTS trims 5000 samples (~208ms at 24kHz) per chunk.
+    /// Set to 0 or omit to disable trimming.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub trim_trailing_samples: Option<usize>,
 }
 
 impl ModelMetadata {
@@ -223,6 +239,8 @@ impl ModelMetadata {
             description: None,
             metadata: HashMap::new(),
             voices: None,
+            max_chunk_chars: None,
+            trim_trailing_samples: None,
         }
     }
 
@@ -249,6 +267,8 @@ impl ModelMetadata {
             description: None,
             metadata: HashMap::new(),
             voices: None,
+            max_chunk_chars: None,
+            trim_trailing_samples: None,
         }
     }
 
@@ -272,6 +292,8 @@ impl ModelMetadata {
             description: None,
             metadata: HashMap::new(),
             voices: None,
+            max_chunk_chars: None,
+            trim_trailing_samples: None,
         }
     }
 

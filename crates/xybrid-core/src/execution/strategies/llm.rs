@@ -889,6 +889,8 @@ mod tests {
             description: None,
             metadata: HashMap::new(),
             voices: None,
+            max_chunk_chars: None,
+            trim_trailing_samples: None,
         }
     }
 

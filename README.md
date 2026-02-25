@@ -259,6 +259,10 @@ All models run entirely on-device. No cloud, no API keys required. Browse the fu
 
 We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on setting up your development environment, submitting pull requests, and adding new models.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=xybrid-ai/xybrid&type=date&legend=bottom-right)](https://www.star-history.com/#xybrid-ai/xybrid&type=date&legend=bottom-right)
+
 ## License
 
 Apache License 2.0 — see [LICENSE](./LICENSE) for details.

@@ -259,6 +259,10 @@ let result = pipeline.run(&Envelope::audio(audio_bytes))?;
 
 我们欢迎贡献！请参阅 [CONTRIBUTING.md](./CONTRIBUTING.md) 了解开发环境设置、提交 Pull Request 和添加新模型的指南。
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=xybrid-ai/xybrid&type=date&legend=bottom-right)](https://www.star-history.com/#xybrid-ai/xybrid&type=date&legend=bottom-right)
+
 ## 许可证
 
 Apache License 2.0 — 详见 [LICENSE](./LICENSE)。

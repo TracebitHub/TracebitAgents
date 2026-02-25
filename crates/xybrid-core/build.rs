@@ -342,6 +342,12 @@ fn compile_llama_cpp() {
         cmake_config
             .define("GGML_METAL", "OFF")
             .define("GGML_CUDA", "OFF");
+
+        // Force CMake Release build on Windows to match the cc crate's CRT choice.
+        // The cc crate always emits /MD (release CRT) — it never emits /MDd, even in
+        // debug cargo builds. CMake defaults to Debug (/MDd) for `cargo test`, creating
+        // a CRT mismatch (LNK2038). Forcing Release ensures both CMake and cc use /MD.
+        cmake_config.profile("Release");
     }
 
     // Output build summary
@@ -367,10 +373,8 @@ fn compile_llama_cpp() {
     println!("cargo:rustc-link-lib=static=ggml-cpu");
 
     // Build our C++ wrapper (C++17 required by llama.cpp headers)
-    // Note: Do NOT set .opt_level() here — let the cc crate auto-detect from Cargo's profile.
-    // On MSVC, the cc crate determines /MD vs /MDd (CRT linkage) from the optimization level.
-    // Forcing opt_level(3) in a debug build causes /MD (release CRT) which mismatches CMake's
-    // Debug build (/MDd), producing LNK2038 errors on Windows.
+    // Note: The cc crate always uses /MD (release CRT) on MSVC — it never emits /MDd.
+    // CMake is forced to Release on Windows above to match (see LNK2038 comment).
     let mut wrapper_build = cc::Build::new();
     wrapper_build
         .cpp(true)

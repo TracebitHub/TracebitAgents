@@ -178,10 +178,14 @@ class XybridModel {
   VoiceInfo? voice({required String voiceId});
 
   // Inference
-  Future<XybridResult> run({required Envelope envelope});
+  Future<XybridResult> run({
+    required Envelope envelope,
+    GenerationConfig? config,
+  });
   Future<XybridResult> runWithContext({
     required Envelope envelope,
     required ConversationContext context,
+    GenerationConfig? config,
   });
 
   // Streaming (LLM token-by-token)
@@ -222,11 +226,15 @@ class XybridModel {
   val hasVoices: Boolean
   fun voice(voiceId: String): VoiceInfo?
 
-  suspend fun run(envelope: Envelope): XybridResult
+  suspend fun run(
+    envelope: Envelope,
+    config: GenerationConfig? = null
+  ): XybridResult
 
   suspend fun runWithContext(
     envelope: Envelope,
-    context: ConversationContext
+    context: ConversationContext,
+    config: GenerationConfig? = null
   ): XybridResult
 }
 ```
@@ -615,15 +623,62 @@ enum MessageRole { system, user, assistant }
 enum class MessageRole { SYSTEM, USER, ASSISTANT }
 ```
 
-### GenerationConfig (LLM Streaming)
+### GenerationConfig (LLM Generation Parameters)
+
+Optional configuration for controlling LLM text generation. All fields are nullable —
+when `null`, the model's defaults are used. Can be passed to **all inference methods**
+(`run`, `runWithContext`, `runStreaming`, `runStreamingWithContext`), not just streaming.
+
+#### Dart
 
 ```dart
 class GenerationConfig {
-  final int? maxTokens;
-  final double? temperature;
-  final double? topP;
+  final int? maxTokens;            // Max tokens to generate (default: 2048)
+  final double? temperature;       // Sampling temperature (default: 0.7)
+  final double? topP;              // Nucleus sampling threshold (default: 0.9)
+  final double? minP;              // Adaptive pruning threshold (default: 0.05)
+  final int? topK;                 // Top-k sampling, 0 = disabled (default: 40)
+  final double? repetitionPenalty; // Repetition penalty, 1.0 = off (default: 1.1)
   final List<String>? stopSequences;
+
+  // Presets
+  const GenerationConfig.greedy();    // temperature=0, topP=1, topK=0
+  const GenerationConfig.creative();  // temperature=0.9, topP=0.95, topK=50
 }
+```
+
+#### Kotlin
+
+```kotlin
+data class GenerationConfig(
+  val maxTokens: UInt?,
+  val temperature: Float?,
+  val topP: Float?,
+  val minP: Float?,
+  val topK: UInt?,
+  val repetitionPenalty: Float?,
+  val stopSequences: List<String>?
+)
+
+// Presets
+GenerationConfigs.greedy()    // temperature=0, topP=1, topK=0
+GenerationConfigs.creative()  // temperature=0.9, topP=0.95, topK=50
+```
+
+#### Usage
+
+```dart
+// Custom parameters
+final result = await model.run(
+  envelope: XybridEnvelope.text("Hello!"),
+  config: GenerationConfig(temperature: 0.3, topK: 20, maxTokens: 256),
+);
+
+// Preset
+final stream = model.runStreaming(
+  envelope: XybridEnvelope.text("Write a poem"),
+  config: GenerationConfig.creative(),
+);
 ```
 
 ### Implementation Status

@@ -93,7 +93,9 @@ classes:
         status: { dart: planned, kotlin: implemented, swift: planned, csharp: implemented }
       run:
         async: true
-        params: [{ name: envelope, type: Envelope }]
+        params:
+          - { name: envelope, type: Envelope }
+          - { name: config, type: "GenerationConfig?", default: "null" }
         return: XybridResult
         status: { dart: implemented, kotlin: implemented, swift: implemented, csharp: implemented }
       runWithContext:
@@ -101,6 +103,7 @@ classes:
         params:
           - { name: envelope, type: Envelope }
           - { name: context, type: ConversationContext }
+          - { name: config, type: "GenerationConfig?", default: "null" }
         return: XybridResult
         status: { dart: implemented, kotlin: implemented, swift: implemented, csharp: implemented }
       runStreaming:
@@ -283,6 +286,33 @@ classes:
     type: data
     section: "8. Supporting Types"
     status: { dart: implemented, kotlin: implemented, swift: planned, csharp: implemented }
+    properties:
+      maxTokens:
+        type: "int?"
+        status: { dart: implemented, kotlin: implemented, swift: planned, csharp: implemented }
+      temperature:
+        type: "double?"
+        status: { dart: implemented, kotlin: implemented, swift: planned, csharp: implemented }
+      topP:
+        type: "double?"
+        status: { dart: implemented, kotlin: implemented, swift: planned, csharp: implemented }
+      minP:
+        type: "double?"
+        status: { dart: implemented, kotlin: implemented, swift: planned, csharp: implemented }
+      topK:
+        type: "int?"
+        status: { dart: implemented, kotlin: implemented, swift: planned, csharp: implemented }
+      repetitionPenalty:
+        type: "double?"
+        status: { dart: implemented, kotlin: implemented, swift: planned, csharp: implemented }
+      stopSequences:
+        type: "List<String>?"
+        status: { dart: implemented, kotlin: implemented, swift: planned, csharp: implemented }
+    factories:
+      greedy:
+        status: { dart: implemented, kotlin: implemented, swift: planned, csharp: planned }
+      creative:
+        status: { dart: implemented, kotlin: implemented, swift: planned, csharp: planned }
 
   StreamToken:
     type: data

@@ -57,6 +57,7 @@ use xybrid_core::target::{Platform, TargetResolver};
 use xybrid_core::template_executor::TemplateExecutor;
 use xybrid_sdk::model::ModelLoader;
 use xybrid_sdk::registry_client::RegistryClient;
+use xybrid_sdk::SdkError;
 
 /// Xybrid CLI - Hybrid Cloud-Edge AI Inference Pipeline Runner
 #[derive(Parser)]
@@ -314,7 +315,28 @@ fn main() -> Result<()> {
         xybrid_sdk::shutdown_platform_telemetry();
     }
 
+    // Intercept ModelNotFound for a friendly message with request link
+    if let Err(ref err) = result {
+        if let Some(msg) = find_model_not_found(err) {
+            eprintln!("{} {}\n", "error:".bright_red().bold(), msg);
+            eprintln!(
+                "Want this model added? Open a model request:\n  https://github.com/xybrid-ai/xybrid/issues/new?template=model-request.yml"
+            );
+            std::process::exit(1);
+        }
+    }
+
     result
+}
+
+/// Walk the anyhow error chain looking for SdkError::ModelNotFound.
+fn find_model_not_found(err: &anyhow::Error) -> Option<&str> {
+    for cause in err.chain() {
+        if let Some(SdkError::ModelNotFound(msg)) = cause.downcast_ref::<SdkError>() {
+            return Some(msg.as_str());
+        }
+    }
+    None
 }
 
 /// Configure the global log level based on CLI verbosity flags.

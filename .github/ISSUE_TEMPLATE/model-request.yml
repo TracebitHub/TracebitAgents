@@ -1,0 +1,57 @@
+name: Model Request
+description: Request a new model to be added to the xybrid registry
+title: "[Model Request] "
+labels: [model-request]
+body:
+  - type: input
+    id: model-name
+    attributes:
+      label: Model Name
+      description: Name or identifier of the model
+      placeholder: "e.g., Phi-3-mini-4k-instruct"
+    validations:
+      required: true
+
+  - type: input
+    id: huggingface-link
+    attributes:
+      label: HuggingFace Link
+      description: Link to the model on HuggingFace
+      placeholder: "https://huggingface.co/microsoft/Phi-3-mini-4k-instruct"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: format
+    attributes:
+      label: Model Format
+      description: What format is the model available in?
+      options:
+        - ONNX
+        - GGUF
+        - SafeTensors
+    validations:
+      required: true
+
+  - type: dropdown
+    id: task
+    attributes:
+      label: Task
+      description: What task does this model perform?
+      options:
+        - text-generation
+        - text-to-speech
+        - speech-recognition
+        - embedding
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why this model?
+      description: Tell us why this model would be useful in xybrid
+      placeholder: "I'm building a ..."
+    validations:
+      required: false

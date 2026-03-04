@@ -1,3 +1,8 @@
+## 0.1.0-beta1
+
+### Features
+* _TODO: Fill in highlights for this release_
+
 ## 0.1.0-alpha8
 
 ### Features

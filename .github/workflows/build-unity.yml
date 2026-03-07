@@ -475,9 +475,20 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           VERSION=${{ steps.version.outputs.version }}
-          # Wait briefly for the release to be created by release.yml
-          # If it doesn't exist yet, gh release upload will fail gracefully
-          # and the artifact is still available via the CI artifact above
-          gh release upload "v${VERSION}" "xybrid-unity-sdk-${VERSION}.tar.gz" --clobber || echo "Release v${VERSION} not found yet — Unity SDK artifact is available as a CI artifact"
+          # The release is created by release.yml which runs in parallel.
+          # Wait up to 10 minutes for it to appear, checking every 30 seconds.
+          for i in $(seq 1 20); do
+            if gh release view "v${VERSION}" > /dev/null 2>&1; then
+              echo "Release v${VERSION} found — uploading Unity SDK..."
+              gh release upload "v${VERSION}" "xybrid-unity-sdk-${VERSION}.tar.gz" --clobber
+              echo "Upload complete."
+              exit 0
+            fi
+            echo "Waiting for release v${VERSION} to be created by release.yml... (attempt $i/20)"
+            sleep 30
+          done
+          echo "WARNING: Release v${VERSION} was not created within 10 minutes."
+          echo "Unity SDK is available as a CI artifact — upload manually with:"
+          echo "  gh release upload v${VERSION} xybrid-unity-sdk-${VERSION}.tar.gz --clobber"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

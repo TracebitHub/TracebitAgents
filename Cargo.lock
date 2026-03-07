@@ -3214,7 +3214,7 @@ dependencies = [
  "libc",
  "percent-encoding",
  "pin-project-lite",
- "socket2 0.6.2",
+ "socket2 0.6.3",
  "system-configuration 0.7.0",
  "tokio",
  "tower-service",
@@ -3470,7 +3470,7 @@ dependencies = [
 
 [[package]]
 name = "integration-tests"
-version = "0.1.0-beta2"
+version = "0.1.0-beta3"
 dependencies = [
  "anyhow",
  "dirs 5.0.1",
@@ -5240,7 +5240,7 @@ dependencies = [
  "quinn-udp",
  "rustc-hash 2.1.1",
  "rustls",
- "socket2 0.6.2",
+ "socket2 0.6.3",
  "thiserror 2.0.18",
  "tokio",
  "tracing",
@@ -5278,7 +5278,7 @@ dependencies = [
  "cfg_aliases",
  "libc",
  "once_cell",
- "socket2 0.6.2",
+ "socket2 0.6.3",
  "tracing",
  "windows-sys 0.60.2",
 ]
@@ -6468,12 +6468,12 @@ dependencies = [
 
 [[package]]
 name = "socket2"
-version = "0.6.2"
+version = "0.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "86f4aa3ad99f2088c990dfa82d367e19cb29268ed67c574d10d0a4bfe71f07e0"
+checksum = "3a766e1110788c36f4fa1c2b71b387a7815aa65f88ce0229841826633d93723e"
 dependencies = [
  "libc",
- "windows-sys 0.60.2",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -7188,7 +7188,7 @@ dependencies = [
  "parking_lot",
  "pin-project-lite",
  "signal-hook-registry",
- "socket2 0.6.2",
+ "socket2 0.6.3",
  "tokio-macros",
  "windows-sys 0.61.2",
 ]
@@ -8982,7 +8982,7 @@ dependencies = [
 
 [[package]]
 name = "xtask"
-version = "0.1.0-beta2"
+version = "0.1.0-beta3"
 dependencies = [
  "anyhow",
  "clap 4.5.60",
@@ -8995,7 +8995,7 @@ dependencies = [
 
 [[package]]
 name = "xybrid-cli"
-version = "0.1.0-beta2"
+version = "0.1.0-beta3"
 dependencies = [
  "anyhow",
  "chrono",
@@ -9021,7 +9021,7 @@ dependencies = [
 
 [[package]]
 name = "xybrid-core"
-version = "0.1.0-beta2"
+version = "0.1.0-beta3"
 dependencies = [
  "anyhow",
  "base64 0.21.7",
@@ -9074,7 +9074,7 @@ dependencies = [
 
 [[package]]
 name = "xybrid-ffi"
-version = "0.1.0-beta2"
+version = "0.1.0-beta3"
 dependencies = [
  "cbindgen",
  "csbindgen",
@@ -9085,7 +9085,7 @@ dependencies = [
 
 [[package]]
 name = "xybrid-macros"
-version = "0.1.0-beta2"
+version = "0.1.0-beta3"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -9094,7 +9094,7 @@ dependencies = [
 
 [[package]]
 name = "xybrid-sdk"
-version = "0.1.0-beta2"
+version = "0.1.0-beta3"
 dependencies = [
  "anyhow",
  "chrono",
@@ -9117,7 +9117,7 @@ dependencies = [
 
 [[package]]
 name = "xybrid-uniffi"
-version = "0.1.0-beta2"
+version = "0.1.0-beta3"
 dependencies = [
  "serde_json",
  "thiserror 1.0.69",
@@ -9127,7 +9127,7 @@ dependencies = [
 
 [[package]]
 name = "xybrid_flutter"
-version = "0.1.0-beta2"
+version = "0.1.0-beta3"
 dependencies = [
  "android_logger 0.14.1",
  "flutter_rust_bridge",

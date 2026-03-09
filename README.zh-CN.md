@@ -78,7 +78,7 @@ Xybrid 是一个 **Rust 驱动的运行时**，为所有主流平台提供原生
 | SDK | 平台 | 安装 | 状态 | 示例 |
 |-----|------|------|------|------|
 | **[Flutter](bindings/flutter/)** | iOS, Android, macOS, Linux, Windows | [pub.dev](https://pub.dev/packages/xybrid_flutter) | 可用 | [README](examples/flutter/README.md) |
-| **[Unity](bindings/unity/)** | macOS, Windows, Linux | [见下方](#安装) | 可用 | [Unity 3D AI 酒馆](https://github.com/xybrid-ai/xybrid-unity-tavern) |
+| **[Unity](bindings/unity/)** | macOS, Windows, Linux, iOS, Android | [见下方](#安装) | 可用 | [Unity 3D AI 酒馆](https://github.com/xybrid-ai/xybrid-unity-tavern) |
 | **[Swift](bindings/apple/)** | iOS, macOS | Swift Package Manager | 即将推出 | [README](examples/ios/README.md) |
 | **[Kotlin](bindings/kotlin/)** | Android | Maven Central | 可用 | [README](examples/android/README.md) |
 | **[CLI](https://github.com/xybrid-ai/xybrid/releases)** | macOS, Linux, Windows | [下载二进制文件](https://github.com/xybrid-ai/xybrid/releases) | 可用 | — |
@@ -90,9 +90,12 @@ Xybrid 是一个 **Rust 驱动的运行时**，为所有主流平台提供原生
 
 **Unity** — Package Manager → 通过 git URL 添加：
 
-```unity
-https://github.com/xybrid-ai/xybrid.git?path=bindings/unity
+```bash
+https://github.com/xybrid-ai/xybrid.git#upm
 ```
+
+> `upm` 分支包含所有平台的预编译原生库。
+> 固定版本：`https://github.com/xybrid-ai/xybrid.git#upm/v0.1.0-beta3`
 
 **Flutter** — 添加到你的 `pubspec.yaml`：
 

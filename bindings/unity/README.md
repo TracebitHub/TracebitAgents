@@ -6,12 +6,14 @@ On-device ML inference SDK for Unity - run TTS, ASR, and LLM models locally in y
 
 ### Option 1: Git URL (Recommended)
 
+The `upm` branch contains pre-built native libraries for all platforms (macOS, Windows, Linux, iOS, Android).
+
 1. Open your Unity project
 2. Go to **Window → Package Manager**
 3. Click **+ → Add package from git URL**
 4. Enter:
    ```
-   https://github.com/xybrid-ai/xybrid.git?path=bindings/unity
+   https://github.com/xybrid-ai/xybrid.git#upm
    ```
 
 Or add directly to `Packages/manifest.json`:
@@ -19,9 +21,15 @@ Or add directly to `Packages/manifest.json`:
 ```json
 {
   "dependencies": {
-    "ai.xybrid.sdk": "https://github.com/xybrid-ai/xybrid.git?path=bindings/unity"
+    "ai.xybrid.sdk": "https://github.com/xybrid-ai/xybrid.git#upm"
   }
 }
+```
+
+To pin a specific version:
+
+```bash
+https://github.com/xybrid-ai/xybrid.git#upm/v0.1.0-beta3
 ```
 
 ### Option 2: Local Development
@@ -144,11 +152,11 @@ Models are automatically downloaded from the Xybrid registry on first use.
 | Platform | Architecture | Status |
 |----------|--------------|--------|
 | macOS | Apple Silicon (arm64) | Supported |
-| macOS | Intel (x86_64) | Supported |
-| Windows | x64 | Planned |
-| Linux | x64 | Planned |
-| iOS | arm64 | Planned |
-| Android | arm64-v8a | Planned |
+| macOS | Intel (x86_64) | Via Rosetta 2 |
+| Windows | x64 | Supported |
+| Linux | x64 | Supported |
+| iOS | arm64 | Supported |
+| Android | arm64-v8a, armeabi-v7a, x86_64 | Supported |
 
 ## Building Native Libraries
 

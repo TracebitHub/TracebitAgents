@@ -5,11 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Planned (0.1.x)
+
+- **OpenUPM registry**: Publish Unity SDK to [openupm.com](https://openupm.com) for scoped registry install
+
+---
+
 ## [0.1.0-beta3] - 2026-03-07
 
 ### Added
 
 - **Unity CI pipeline** (`build-unity.yml`): Automated native library builds for all Unity platforms (macOS arm64, Windows x86_64, Linux x86_64, iOS arm64, Android arm64/armv7/x86_64)
+- **UPM branch distribution**: CI publishes `upm` branch with pre-built native libraries for Unity Package Manager Git URL install (`https://github.com/xybrid-ai/xybrid.git#upm`)
+- **Unity platform .meta files**: Import settings for all target platforms (Windows, Linux, Android ABIs, iOS static lib)
 - **C# bindings sync check**: CI validates `NativeMethods.g.cs` stays in sync with `xybrid-ffi`
 - **`cargo xtask build-unity`**: New subcommand for building Unity native libraries locally
 - **Unity SDK packaging**: `xybrid-unity-sdk-<version>.tar.gz` attached to GitHub Releases

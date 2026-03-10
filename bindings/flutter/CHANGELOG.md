@@ -1,3 +1,7 @@
+## 0.1.0-beta4
+
+* Version bump to track core release. No Flutter API changes.
+
 ## 0.1.0-beta3
 
 * Version bump to track core release. No Flutter API changes.

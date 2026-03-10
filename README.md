@@ -95,7 +95,7 @@ https://github.com/xybrid-ai/xybrid.git#upm
 ```
 
 > The `upm` branch contains pre-built native libraries for all platforms.
-> To pin a specific version: `https://github.com/xybrid-ai/xybrid.git#upm/v0.1.0-beta3`
+> To pin a specific version: `https://github.com/xybrid-ai/xybrid.git#upm/v0.1.0-beta4`
 
 **Flutter** — add to your `pubspec.yaml`:
 
@@ -108,7 +108,7 @@ dependencies:
 
 ```gradle
 dependencies {
-    implementation("ai.xybrid:xybrid-kotlin:0.1.0-beta3")
+    implementation("ai.xybrid:xybrid-kotlin:0.1.0-beta4")
 }
 ```
 

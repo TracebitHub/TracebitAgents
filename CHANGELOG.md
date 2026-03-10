@@ -13,6 +13,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.1.0-beta4] - 2026-03-10
+
+### Added
+
+- **Swift SDK (UniFFI)**: Regenerated UniFFI bindings with full API surface — `XybridVoiceInfo`, `XybridGenerationConfig`, expanded error enum
+- **Swift Package.swift binaryTarget**: Replaced source-based FFI target with `.binaryTarget` pointing to local XCFramework
+- **XCFramework headers**: Added `-headers` flag to `xcodebuild -create-xcframework` in xtask for SPM module resolution
+- **Module map**: Created `module.modulemap` for `xybrid_uniffiFFI` clang module
+- **System framework linking**: Metal, MetalPerformanceShaders, MetalPerformanceShadersGraph, CoreML, Accelerate, Security, libc++
+- **iOS example app rewrite**: Real SDK integration — removed all mock/simulated code, uses real `import Xybrid` with model loading, voice picker, and audio playback
+- **Swift release workflow**: `publish-swift` job builds XCFramework, computes checksum, publishes URL-based Package.swift to `swift` orphan branch
+- **Unity platform .meta files**: Import settings for all target platforms (Windows, Linux, Android ABIs, iOS static lib)
+- **UPM branch CI**: Publishes `upm` branch with pre-built native libraries for Unity Package Manager
+
+### Changed
+
+- **Unity CI**: Updated `build-unity.yml` to wait for release to exist before publishing
+- **xtask**: Updated library name detection to use target triple instead of host OS for cross-compilation
+
+---
+
 ## [0.1.0-beta3] - 2026-03-07
 
 ### Added

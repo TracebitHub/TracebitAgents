@@ -11,9 +11,9 @@
 <h1 align="center">Xybrid</h1>
 
 <p align="center">
-  <strong>为移动、桌面以及边缘设备的本地AI。</strong><br/>
-  在本地运行语音、语言和视觉模型——隐私、离线、快速。<br/>
-  适用于任何应用，包括游戏 🕹️
+  <strong>在应用与游戏中原生运行 LLM、ASR 与 TTS。</strong><br/>
+  Rust 核心 · iOS · Android · Flutter · Unity<br/>
+  隐私优先，离线可用，无需云端。
 </p>
 
 <p align="center">
@@ -70,6 +70,18 @@
 <p align="center">
   <img src="docs/game-demo.gif" alt="游戏演示" width="540">
 </p>
+
+## 从这里开始
+
+| 目标 | 路径 |
+|------|------|
+| 最快上手（2 分钟） | [下载 CLI →](https://github.com/xybrid-ai/xybrid/releases) |
+| 构建移动端或桌面应用 | [Flutter SDK →](bindings/flutter/) |
+| 为游戏添加 AI NPC | [Unity SDK →](bindings/unity/)，体验 [3D 酒馆示例](https://github.com/xybrid-ai/xybrid-unity-tavern) |
+| Android 原生开发 | [Kotlin SDK →](bindings/kotlin/) |
+| Rust / 嵌入式 | [核心 crate →](crates/) |
+
+---
 
 ## SDK
 
@@ -189,23 +201,17 @@ final result = await pipeline.run(envelope: Envelope.audio(bytes: audioBytes));
 
 **Kotlin:**
 ```kotlin
-val pipeline = Xybrid.pipeline(yamlContent = yamlString).load()
-pipeline.loadModels()
-val result = pipeline.run(envelope = XybridEnvelope.Audio(bytes = audioBytes))
+// 流水线支持即将推出，当前请使用单模型加载
 ```
 
 **Swift:**
 ```swift
-let pipeline = try Xybrid.pipeline(yamlContent: yamlString).load()
-try pipeline.loadModels()
-let result = try pipeline.run(envelope: .audio(bytes: audioBytes))
+// 流水线支持即将推出，当前请使用单模型加载
 ```
 
 **Unity (C#):**
 ```csharp
-var pipeline = Xybrid.Pipeline(yamlContent: yamlString).Load();
-pipeline.LoadModels();
-var result = pipeline.Run(envelope: Envelope.Audio(bytes: audioBytes));
+// 流水线支持即将推出，当前请使用单模型加载
 ```
 
 **Rust:**
@@ -219,6 +225,14 @@ let result = pipeline.run(&Envelope::audio(audio_bytes))?;
 ## 支持的模型
 
 所有模型完全在设备端运行。无需云端，无需 API 密钥。使用 `xybrid models list` 查看完整的模型注册表。
+
+### 从这些模型开始
+
+| 模型 | 类型 | 参数量 | 推荐理由 |
+|------|------|--------|----------|
+| **SmolLM2 360M** | LLM | 360M | 最佳质量/体积比，适合任何设备 |
+| **Kokoro 82M** | TTS | 82M | 高质量语音合成，24 种声音，速度快 |
+| **Whisper Tiny** | ASR | 39M | 多语言转录，准确率高 |
 
 ### 语音转文本
 
@@ -268,11 +282,13 @@ let result = pipeline.run(&Envelope::audio(audio_bytes))?;
 | 语音转文本 | ✅ | ✅ | ✅ | ✅ | ✅ |
 | 文本转语音 | ✅ | ✅ | ✅ | ✅ | ✅ |
 | 语言模型 | ✅ | ✅ | ✅ | ✅ | ✅ |
-| 视觉模型 | ✅ | ✅ | ✅ | ✅ | ✅ |
-| 嵌入模型 | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 视觉模型 | 🔜 | 🔜 | 🔜 | 🔜 | 🔜 |
+| 嵌入模型 | 🔜 | 🔜 | 🔜 | 🔜 | 🔜 |
 | 流水线编排 | ✅ | ✅ | ✅ | ✅ | ✅ |
 | 模型下载与缓存 | ✅ | ✅ | ✅ | ✅ | ✅ |
 | 硬件加速 | Metal, ANE | CPU | Metal, ANE | CUDA | CUDA |
+
+**SDK 流水线支持：** Flutter ✅ · Rust ✅ · Kotlin 🔜 · Swift 🔜 · Unity 🔜
 
 ---
 
@@ -283,6 +299,17 @@ let result = pipeline.run(&Envelope::audio(audio_bytes))?;
 - **跨平台** — iOS、Android、macOS、Linux 和 Windows 使用统一的 API。
 - **流水线编排** — 在单次调用中链接多个模型（ASR → LLM → TTS）。
 - **自动优化** — 在 Apple Neural Engine、Metal 和 CUDA 上进行硬件加速。
+
+### 与其他方案对比
+
+| | Xybrid | Ollama | llama.cpp | ONNX Runtime |
+|---|---|---|---|---|
+| 移动端（iOS/Android） | ✅ | ❌ | ❌ | ✅ |
+| 游戏引擎（Unity） | ✅ | ❌ | ❌ | ❌ |
+| 多阶段流水线 | ✅ | ❌ | ❌ | ❌ |
+| ASR + TTS + LLM 统一 SDK | ✅ | ❌ | ❌ | ❌ |
+| 进程内运行（无需服务器） | ✅ | ❌ | ✅ | ✅ |
+| 无需云端 | ✅ | ✅ | ✅ | ✅ |
 
 ---
 

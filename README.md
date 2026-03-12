@@ -11,9 +11,9 @@
 <h1 align="center">Xybrid</h1>
 
 <p align="center">
-  <strong>On-device AI for mobile, desktop, edge.</strong><br/>
-  Run speech, language, and vision models locally — private, offline, fast.<br/>
-  Perfect for any app including games 🕹️
+  <strong>Run LLMs, ASR, and TTS natively in apps and games.</strong><br/>
+  Rust core · iOS · Android · Flutter · Unity<br/>
+  Private, offline, no cloud required.
 </p>
 
 <p align="center">
@@ -66,6 +66,19 @@
   <img src="docs/demo-desktop.gif" alt="Desktop demo" width="540">&nbsp;&nbsp;&nbsp;&nbsp;
   <img src="docs/demo-android.gif" alt="Android demo" width="150">
 </p>
+
+
+
+## Start Here
+
+| Goal | Path |
+|------|------|
+| Fastest demo (2 min) | [Download CLI →](https://github.com/xybrid-ai/xybrid/releases) |
+| Build a mobile or desktop app | [Flutter SDK →](bindings/flutter/) |
+| Add AI NPCs to your game | [Unity SDK →](bindings/unity/) and try the [3D tavern demo](https://github.com/xybrid-ai/xybrid-unity-tavern) |
+| Android native | [Kotlin SDK →](bindings/kotlin/) |
+| Rust / embedded | [Core crate →](crates/) |
+---
 
 <p align="center">
   <img src="docs/game-demo.gif" alt="Game demo" width="540">
@@ -213,6 +226,14 @@ let result = pipeline.run(&Envelope::audio(audio_bytes))?;
 
 All models run entirely on-device. No cloud, no API keys required. Browse the full registry with `xybrid models list`.
 
+### Start with these
+
+| Model | Type | Params | Why start here |
+|-------|------|--------|----------------|
+| **SmolLM2 360M** | LLM | 360M | Best quality-to-size ratio for any device |
+| **Kokoro 82M** | TTS | 82M | High-quality speech, 24 voices, fast |
+| **Whisper Tiny** | ASR | 39M | Accurate multilingual transcription |
+
 ### Speech-to-Text
 
 | Model | Params | Format | Description |
@@ -261,11 +282,13 @@ All models run entirely on-device. No cloud, no API keys required. Browse the fu
 | Speech-to-Text | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Text-to-Speech | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Language Models | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Vision Models | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Embeddings | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Vision Models | 🔜 | 🔜 | 🔜 | 🔜 | 🔜 |
+| Embeddings | 🔜 | 🔜 | 🔜 | 🔜 | 🔜 |
 | Pipeline Orchestration | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Model Download & Caching | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Hardware Acceleration | Metal, ANE | CPU | Metal, ANE | CUDA | CUDA |
+
+**SDK pipeline support:** Flutter ✅ · Rust ✅ · Kotlin 🔜 · Swift 🔜 · Unity 🔜
 
 ---
 
@@ -276,6 +299,17 @@ All models run entirely on-device. No cloud, no API keys required. Browse the fu
 - **Cross-platform** — One API across iOS, Android, macOS, Linux, and Windows.
 - **Pipeline orchestration** — Chain models together (ASR → LLM → TTS) in a single call.
 - **Automatic optimization** — Hardware acceleration on Apple Neural Engine, Metal, and CUDA.
+
+### How it compares
+
+| | Xybrid | Ollama | llama.cpp | ONNX Runtime |
+|---|---|---|---|---|
+| Mobile (iOS/Android) | ✅ | ❌ | ❌ | ✅ |
+| Game engine (Unity) | ✅ | ❌ | ❌ | ❌ |
+| Multi-stage pipelines | ✅ | ❌ | ❌ | ❌ |
+| ASR + TTS + LLM in one SDK | ✅ | ❌ | ❌ | ❌ |
+| Runs in-process (no server) | ✅ | ❌ | ✅ | ✅ |
+| No cloud required | ✅ | ✅ | ✅ | ✅ |
 
 ---
 

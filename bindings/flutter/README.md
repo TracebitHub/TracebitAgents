@@ -1,6 +1,6 @@
 # Xybrid Flutter SDK
 
-Run ML models on-device or in the cloud with intelligent hybrid routing and streaming inference.
+Run LLMs, ASR, and TTS natively in Flutter apps — private, offline, no cloud required.
 
 [![pub package](https://img.shields.io/pub/v/xybrid_flutter.svg)](https://pub.dev/packages/xybrid_flutter)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -215,11 +215,16 @@ print('Transcription: ${result.text}');
 
 | Model | Type | All Platforms |
 |-------|------|:---:|
-| Kokoro-82M | TTS | ✅ |
+| Kokoro 82M | TTS | ✅ |
 | KittenTTS Nano | TTS | ✅ |
 | Whisper Tiny (Candle) | ASR | ✅ |
 | Wav2Vec2 (ONNX) | ASR | ✅ |
+| SmolLM2 360M | LLM | ✅ |
 | Qwen 2.5 0.5B | LLM | ✅ |
+| Qwen 3.5 0.8B | LLM | ✅ |
+| Qwen 3.5 2B | LLM | ✅ |
+| Gemma 3 1B | LLM | ✅ |
+| Llama 3.2 1B | LLM | ✅ |
 
 ### Platform Requirements
 

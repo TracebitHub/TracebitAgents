@@ -6,6 +6,16 @@ This directory contains the Android library for Xybrid, providing native Kotlin/
 
 ## Installation
 
+### Maven Central (Recommended)
+
+Add to your `build.gradle.kts`:
+
+```gradle
+dependencies {
+    implementation("ai.xybrid:xybrid-kotlin:0.1.0-beta5")
+}
+```
+
 ### Local Development
 
 Add this module as a project dependency:

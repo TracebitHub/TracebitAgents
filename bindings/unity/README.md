@@ -51,6 +51,33 @@ Download the `.tgz` release from GitHub, then:
 2. Click **+ → Add package from tarball**
 3. Select the downloaded `.tgz` file
 
+### iOS Installation
+
+iOS is not available via the UPM git URL due to a GitHub file size constraint. The iOS native library (`libxybrid_ffi.a`) statically embeds ONNX Runtime, making it ~326 MB — exceeding GitHub's 100 MB hard limit for files committed to git.
+
+**To use Xybrid in an iOS Unity build:**
+
+1. Download the iOS plugin from [GitHub Releases](https://github.com/xybrid-ai/xybrid/releases):
+   - Find the latest release and download `xybrid-unity-sdk-<version>.tar.gz`
+   - Extract and locate `Runtime/Plugins/iOS/libxybrid_ffi.a`
+
+2. Place the file in your Unity project:
+   ```
+   Assets/Plugins/iOS/libxybrid_ffi.a
+   ```
+
+3. Select the file in the Unity Inspector and configure:
+   - **Platform**: iOS
+   - **CPU**: ARM64
+   - **Add to Embedded Binaries**: No (static library)
+
+4. Install the UPM package (provides the C# API without the iOS binary):
+   ```
+   https://github.com/xybrid-ai/xybrid.git#upm
+   ```
+
+> **Note**: Automated iOS UPM support is on our roadmap. Track progress at [#ios-upm](https://github.com/xybrid-ai/xybrid/issues).
+
 ## Quick Start
 
 ```csharp
@@ -155,7 +182,7 @@ Models are automatically downloaded from the Xybrid registry on first use.
 | macOS | Intel (x86_64) | Via Rosetta 2 |
 | Windows | x64 | Supported |
 | Linux | x64 | Supported |
-| iOS | arm64 | Supported |
+| iOS | arm64 | [Manual setup](#ios-installation) |
 | Android | arm64-v8a, armeabi-v7a, x86_64 | Supported |
 
 ## Building Native Libraries

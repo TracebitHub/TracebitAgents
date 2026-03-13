@@ -560,13 +560,22 @@ jobs:
             [windows]="Windows"
             [linux]="Linux"
             [android]="Android"
-            [ios]="iOS"
           )
+          # NOTE: iOS is intentionally excluded from the UPM branch.
+          # libxybrid_ffi.a embeds ORT statically (~326 MB), exceeding GitHub's 100 MB
+          # hard file size limit. iOS Unity support requires manual setup.
+          # See bindings/unity/README.md#ios-installation for instructions.
 
           for platform_dir in downloaded-plugins/unity-plugins-*/; do
             ARTIFACT_NAME=$(basename "$platform_dir" | sed 's/unity-plugins-//')
+
+            if [[ "$ARTIFACT_NAME" == "ios" ]]; then
+              echo "Skipping ios -- excluded from UPM branch (see README for manual iOS setup)"
+              continue
+            fi
+
             PLATFORM="${PLATFORM_MAP[$ARTIFACT_NAME]:-$ARTIFACT_NAME}"
-            echo "Assembling $ARTIFACT_NAME → $PLATFORM..."
+            echo "Assembling $ARTIFACT_NAME -> $PLATFORM..."
             mkdir -p "bindings/unity/Runtime/Plugins/$PLATFORM"
             cp -r "$platform_dir"/* "bindings/unity/Runtime/Plugins/$PLATFORM/"
           done

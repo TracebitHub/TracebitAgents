@@ -20,6 +20,7 @@ ort-coreml = ["xybrid-sdk/ort-coreml"]
 
 # Candle (Pure Rust ML)
 candle = ["xybrid-sdk/candle"]
+candle-hub = ["xybrid-sdk/candle-hub"]
 candle-metal = ["xybrid-sdk/candle-metal"]
 candle-cuda = ["xybrid-sdk/candle-cuda"]
 
@@ -31,10 +32,11 @@ llm-llamacpp = ["xybrid-sdk/llm-llamacpp"]
 
 # PLATFORM PRESETS (composed from individual features above)
 # This ensures #[cfg(feature = "...")] checks work correctly in this crate
-platform-android = ["ort-dynamic", "llm-llamacpp"]
-platform-ios = ["ort-download", "ort-coreml", "candle-metal", "llm-llamacpp"]
-platform-macos = ["ort-download", "ort-coreml", "candle-metal", "llm-llamacpp"]
+platform-android = ["ort-dynamic", "llm-llamacpp", "candle"]
+platform-ios = ["ort-download", "ort-coreml", "candle-metal", "candle-hub", "llm-llamacpp"]
+platform-macos = ["ort-download", "ort-coreml", "candle-metal", "candle-hub", "llm-llamacpp"]
 platform-desktop = ["ort-download", "llm-llamacpp"]
+
 
 [dependencies]
 xybrid-core = { path = "../xybrid-core", default-features = false }

@@ -39,14 +39,14 @@ default = []
 
 # PLATFORM PRESETS (SINGLE SOURCE OF TRUTH)
 
-# Android: Dynamic ORT loading + llama.cpp (mistral.rs has SIGILL issues on ARM)
-platform-android = ["xybrid-core/ort-dynamic", "xybrid-core/llm-llamacpp"]
+# Android: Dynamic ORT loading + Candle + llama.cpp (mistral.rs has SIGILL issues on ARM)
+platform-android = ["xybrid-core/ort-dynamic", "xybrid-core/llm-llamacpp", "xybrid-core/candle"]
 
 # iOS: CoreML + Metal acceleration + llama.cpp
-platform-ios = ["xybrid-core/ort-download", "xybrid-core/ort-coreml", "xybrid-core/candle-metal", "xybrid-core/llm-llamacpp"]
+platform-ios = ["xybrid-core/ort-download", "xybrid-core/ort-coreml", "xybrid-core/candle-metal", "xybrid-core/candle-hub", "xybrid-core/llm-llamacpp"]
 
 # macOS: CoreML + Metal + llama.cpp
-platform-macos = ["xybrid-core/ort-download", "xybrid-core/ort-coreml", "xybrid-core/candle-metal", "xybrid-core/llm-llamacpp"]
+platform-macos = ["xybrid-core/ort-download", "xybrid-core/ort-coreml", "xybrid-core/candle-metal", "xybrid-core/candle-hub", "xybrid-core/llm-llamacpp"]
 
 # Desktop (Linux/Windows): CPU with llama.cpp
 platform-desktop = ["xybrid-core/ort-download", "xybrid-core/llm-llamacpp"]
@@ -60,6 +60,7 @@ ort-coreml = ["xybrid-core/ort-coreml"]
 
 # Candle (Pure Rust ML)
 candle = ["xybrid-core/candle"]
+candle-hub = ["xybrid-core/candle-hub"]
 candle-metal = ["xybrid-core/candle-metal"]
 candle-cuda = ["xybrid-core/candle-cuda"]
 

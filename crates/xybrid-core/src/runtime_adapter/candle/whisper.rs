@@ -255,7 +255,7 @@ impl WhisperModel {
     ///
     /// * `size` - Whisper model size
     /// * `device` - Device for inference
-    #[cfg(feature = "candle")]
+    #[cfg(feature = "candle-hub")]
     pub fn from_hf(size: WhisperSize, device: &Device) -> WhisperResult<Self> {
         use hf_hub::{api::sync::Api, Repo, RepoType};
 

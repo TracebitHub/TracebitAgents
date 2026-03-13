@@ -85,7 +85,9 @@ ort-dynamic = ["ort/load-dynamic"]                          # Android: load .so 
 ort-coreml = ["ort/coreml"]                                 # Apple Neural Engine acceleration
 
 # Candle (Pure Rust ML)
-candle = ["dep:candle-core", "dep:candle-nn", "dep:candle-transformers", "dep:safetensors", "dep:hf-hub", "dep:byteorder", "dep:num-traits"]
+candle = ["dep:candle-core", "dep:candle-nn", "dep:candle-transformers", "dep:safetensors", "dep:byteorder", "dep:num-traits"]
+candle-hub = ["candle", "dep:hf-hub"]   # HuggingFace Hub download (requires OpenSSL — not for Android)
+
 candle-metal = ["candle", "candle-core/metal", "candle-nn/metal"]
 candle-cuda = ["candle", "candle-core/cuda"]
 

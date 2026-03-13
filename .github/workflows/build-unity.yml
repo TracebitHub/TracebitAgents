@@ -136,6 +136,9 @@ jobs:
       - name: Build for aarch64-apple-darwin
         run: cargo xtask build-ffi --target aarch64-apple-darwin --deploy-unity
 
+      - name: Strip debug symbols (macOS)
+        run: strip -x bindings/unity/Runtime/Plugins/macOS/libxybrid_ffi.dylib
+
       - name: Verify deployed libraries
         run: |
           echo "macOS plugin directory:"
@@ -191,6 +194,10 @@ jobs:
       - name: Build for x86_64-pc-windows-msvc
         run: cargo xtask build-ffi --target x86_64-pc-windows-msvc --deploy-unity
 
+      - name: Strip debug symbols (Windows)
+        shell: bash
+        run: llvm-strip bindings/unity/Runtime/Plugins/Windows/xybrid_ffi.dll
+
       - name: Verify deployed libraries
         shell: bash
         run: |
@@ -243,6 +250,9 @@ jobs:
 
       - name: Build for x86_64-unknown-linux-gnu
         run: cargo xtask build-ffi --target x86_64-unknown-linux-gnu --deploy-unity
+
+      - name: Strip debug symbols (Linux)
+        run: llvm-strip bindings/unity/Runtime/Plugins/Linux/libxybrid_ffi.so
 
       - name: Verify deployed libraries
         run: |
@@ -335,6 +345,13 @@ jobs:
       - name: Build for x86_64-linux-android
         run: cargo xtask build-ffi --target x86_64-linux-android --deploy-unity
 
+      - name: Strip debug symbols (Android)
+        run: |
+          NDK_STRIP="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip"
+          "$NDK_STRIP" bindings/unity/Runtime/Plugins/Android/arm64-v8a/libxybrid_ffi.so
+          "$NDK_STRIP" bindings/unity/Runtime/Plugins/Android/armeabi-v7a/libxybrid_ffi.so
+          "$NDK_STRIP" bindings/unity/Runtime/Plugins/Android/x86_64/libxybrid_ffi.so
+
       - name: Verify deployed libraries
         run: |
           echo "Android plugin directory:"
@@ -406,6 +423,9 @@ jobs:
 
       - name: Build for aarch64-apple-ios
         run: cargo xtask build-ffi --target aarch64-apple-ios --deploy-unity
+
+      - name: Strip debug symbols (iOS)
+        run: strip -S bindings/unity/Runtime/Plugins/iOS/libxybrid_ffi.a
 
       - name: Verify deployed libraries
         run: |

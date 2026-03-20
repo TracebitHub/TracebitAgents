@@ -25,6 +25,21 @@ rootProject.allprojects {
 
 apply plugin: 'com.android.library'
 
+// Detect host OS for NDK prebuilt path
+def hostTag = {
+    def os = System.getProperty("os.name").toLowerCase()
+    if (os.contains("mac")) return "darwin-x86_64"
+    if (os.contains("linux")) return "linux-x86_64"
+    if (os.contains("windows")) return "windows-x86_64"
+    return "linux-x86_64"
+}()
+
+// Map Android ABI → NDK sysroot triple
+def abiToTriple = [
+    "arm64-v8a": "aarch64-linux-android",
+    "x86_64"   : "x86_64-linux-android",
+]
+
 android {
     if (project.android.hasProperty("namespace")) {
         namespace 'com.flutter_rust_bridge.xybrid_flutter'
@@ -62,8 +77,18 @@ android {
 
     // Ensure native libraries are properly packaged
     packagingOptions {
-        // Prevent duplicate .so files from dependencies
+        // Prevent duplicate .so files from dependencies (ORT AAR + NDK copy)
         pickFirst '**/libc++_shared.so'
+    }
+
+    // Bundle libc++_shared.so from the NDK.
+    // The Rust FFI library links libc++ dynamically (via llama.cpp C++ deps).
+    // Android doesn't bundle it automatically when using precompiled binaries.
+    // See: https://github.com/xybrid-ai/xybrid/issues/14
+    sourceSets {
+        main {
+            jniLibs.srcDirs += ["${buildDir}/ndk-libs"]
+        }
     }
 }
 
@@ -81,6 +106,35 @@ ext.set('CARGOKIT_RUST_MIN_SDK_VERSION', '28')
 // Version must match ort Rust crate v2.0.0-rc.10 expectations.
 dependencies {
     implementation 'com.microsoft.onnxruntime:onnxruntime-android:1.23.2'
+}
+
+// Copy libc++_shared.so from NDK into build dir with correct ABI layout.
+// Required because the precompiled Rust FFI binary dynamically links libc++
+// (via llama.cpp), but when cargokit downloads precompiled binaries instead
+// of building from source, the ORT Maven AAR alone doesn't always provide it.
+task copyNdkLibs {
+    def ndkCopyDir = file("${buildDir}/ndk-libs")
+    outputs.dir ndkCopyDir
+
+    doLast {
+        abiToTriple.each { abi, triple ->
+            def src = file("${android.ndkDirectory}/toolchains/llvm/prebuilt/${hostTag}/sysroot/usr/lib/${triple}/libc++_shared.so")
+            def dst = file("${ndkCopyDir}/${abi}/libc++_shared.so")
+            if (src.exists()) {
+                dst.parentFile.mkdirs()
+                ant.copy(file: src, tofile: dst)
+            } else {
+                logger.warn("Xybrid: libc++_shared.so not found at ${src} — Android build may fail at runtime")
+            }
+        }
+    }
+}
+
+// Hook into the JNI merge task so libc++_shared.so is available before packaging
+tasks.configureEach { task ->
+    if (task.name.startsWith('merge') && task.name.endsWith('JniLibFolders')) {
+        task.dependsOn copyNdkLibs
+    }
 }
 
 apply from: "../cargokit/gradle/plugin.gradle"

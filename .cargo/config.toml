@@ -14,5 +14,11 @@ rustflags = ["-C", "link-args=/NODEFAULTLIB:LIBCMT"]
 # Android aarch64: enable +fp16 so the assembler accepts FP16 SIMD instructions in
 # gemm-f16 (candle dependency). The binary is still safe on older devices — gemm-f16
 # uses is_aarch64_feature_detected!("fp16") at runtime and falls back to scalar.
+# Also align ELF LOAD segments to 16KB pages — required by Android 15+ (API 35+).
+# See: https://developer.android.com/16kb-page-size
 [target.aarch64-linux-android]
-rustflags = ["-C", "target-feature=+fp16"]
+rustflags = ["-C", "target-feature=+fp16", "-C", "link-arg=-Wl,-z,max-page-size=16384"]
+
+# Android x86_64: align ELF LOAD segments to 16KB pages for Android 15+ compatibility.
+[target.x86_64-linux-android]
+rustflags = ["-C", "link-arg=-Wl,-z,max-page-size=16384"]

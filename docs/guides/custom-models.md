@@ -466,6 +466,27 @@ The model loads but fails when trying to read a vocabulary or tokenizer file.
 - GGUF models require `"type": "Gguf"` in the execution template — not `"Onnx"`
 - Set `context_length` in the execution template to control memory usage
 
+## Quick Reference: Task → Configuration
+
+Use this table to find the right configuration for your model type. Pick the row matching your task, then copy the corresponding preprocessing and postprocessing steps.
+
+| Task | Format | Execution Template | Preprocessing | Postprocessing |
+| ---- | ------ | ------------------ | ------------- | -------------- |
+| **Image classification** | ONNX | `Onnx` | `Reshape` → `Normalize` | `Softmax` or `ArgMax` |
+| **Speech recognition (CTC)** | ONNX | `Onnx` | `AudioDecode` | `CTCDecode` |
+| **Speech recognition (Whisper)** | SafeTensors | `SafeTensors` | _(built-in)_ | _(built-in)_ |
+| **Text-to-speech** | ONNX | `Onnx` | `Phonemize` | `TTSAudioEncode` |
+| **Text generation (LLM)** | GGUF | `Gguf` | _(none)_ | _(none)_ |
+| **Sentence embeddings** | ONNX | `Onnx` | `Tokenize` | `MeanPool` |
+| **Text classification / NER** | ONNX | `Onnx` | `Tokenize` | `ArgMax` |
+| **Object detection / Vision** | ONNX | `Onnx` | `Resize` → `Normalize` | `TopK` or `Threshold` |
+
+**Key rules:**
+
+- **GGUF models** handle tokenization internally — always leave preprocessing/postprocessing empty
+- **SafeTensors (Whisper)** have built-in decoding — set `architecture: "whisper"` and xybrid handles the rest
+- **ONNX models** need explicit preprocessing/postprocessing matching the model's expected input/output
+
 ## Using AI Agents to Configure Model Execution
 
 If you have an ONNX or GGUF model but aren't sure what preprocessing/postprocessing steps it needs, you can use an AI coding agent (Claude, Cursor, Copilot, etc.) to figure it out. The agent can inspect your model file, read the HuggingFace model card, and generate a working `model_metadata.json` for you.
@@ -475,7 +496,7 @@ If you have an ONNX or GGUF model but aren't sure what preprocessing/postprocess
 Give your AI agent these pieces of information:
 
 | Information | Why It's Needed | How to Get It |
-|------------|----------------|---------------|
+| ----------- | --------------- | ------------- |
 | **Model file format** | Determines `execution_template.type` | Check file extension: `.onnx`, `.gguf`, `.safetensors` |
 | **Task type** | Determines pre/postprocessing steps | Check the HuggingFace model card `pipeline_tag` |
 | **Input tensor names & shapes** | Needed for correct preprocessing | ONNX: `python -c "import onnx; m = onnx.load('model.onnx'); print([(i.name, [d.dim_value for d in i.type.tensor_type.shape.dim]) for i in m.graph.input])"` |
@@ -490,7 +511,7 @@ For GGUF models, you can skip tensor inspection — llama.cpp handles tokenizati
 Copy and paste this prompt into your AI coding agent, filling in the bracketed placeholders:
 
 ````
-I have a [ONNX / GGUF] model for [task description, e.g., "named entity recognition" or "text-to-speech"].
+I have a [ONNX / GGUF / SafeTensors] model for [task description, e.g., "named entity recognition" or "text-to-speech"].
 
 Model source: [HuggingFace repo URL or description]
 Model file: [filename, e.g., "model.onnx" or "model-Q4_K_M.gguf"]
@@ -508,11 +529,21 @@ Generate a model_metadata.json file for the xybrid ML inference framework.
 
 Rules:
 - execution_template.type must be one of: Onnx, Gguf, SafeTensors, CoreMl, TfLite, ModelGraph
-- Available preprocessing steps: AudioDecode, Phonemize, Tokenize, Normalize, Reshape, PadSequence, MelSpectrogram, AudioChunk
-- Available postprocessing steps: CTCDecode, ArgMax, Softmax, TopK, MeanPool, Concatenate, TTSAudioEncode, TTSAudioDecode, ExtractTensor, ReshapeOutput, TokenDecode
-- For GGUF models: leave preprocessing and postprocessing as empty arrays
-- All referenced files must be listed in the "files" array
+- Available preprocessing steps: AudioDecode, MelSpectrogram, Phonemize, Tokenize, Normalize, Resize, CenterCrop, Reshape
+- Available postprocessing steps: CTCDecode, TTSAudioEncode, WhisperDecode, BPEDecode, ArgMax, Softmax, TopK, Threshold, TemperatureSample, MeanPool, Denormalize
+- For GGUF models: leave preprocessing and postprocessing as empty arrays (llama.cpp handles tokenization internally)
+- For SafeTensors Whisper models: leave preprocessing and postprocessing empty, set architecture to "whisper"
+- All referenced files (vocab_file, tokens_file, tokenizer_file, etc.) must be listed in the "files" array
 - The metadata object should include "task", "architecture", and "backend" where applicable
+
+Task-to-step mapping:
+- Speech recognition (CTC): AudioDecode → model → CTCDecode
+- Speech recognition (Whisper): SafeTensors template with architecture "whisper" (no steps needed)
+- Text-to-speech: Phonemize (backend: MisakiDictionary) → model → TTSAudioEncode
+- Image classification: Reshape + Normalize → model → Softmax or ArgMax
+- Sentence embeddings: Tokenize → model → MeanPool
+- Text classification / NER: Tokenize → model → ArgMax
+- Text generation (GGUF): Gguf template, no steps
 
 See the full field reference: https://github.com/xybrid-ai/xybrid/blob/main/docs/sdk/MODEL_METADATA.md
 See the JSON Schema: https://github.com/xybrid-ai/xybrid/blob/main/docs/sdk/model_metadata.schema.json

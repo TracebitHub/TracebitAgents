@@ -6,10 +6,14 @@
 //!
 //! Run with: `cargo test -p xybrid-sdk --features onnx-inspect -- fixture_validation`
 
+#[cfg(feature = "onnx-inspect")]
 use std::path::PathBuf;
-use xybrid_core::execution::{ExecutionTemplate, PostprocessingStep, PreprocessingStep};
+use xybrid_core::execution::ExecutionTemplate;
+#[cfg(feature = "onnx-inspect")]
+use xybrid_core::execution::{PostprocessingStep, PreprocessingStep};
 
 /// Path to integration-tests/fixtures/models/ from the workspace root.
+#[cfg(feature = "onnx-inspect")]
 fn fixtures_dir() -> PathBuf {
     let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     // crates/xybrid-sdk/ → ../../integration-tests/fixtures/models/
@@ -20,17 +24,33 @@ fn fixtures_dir() -> PathBuf {
 }
 
 /// Copy specific files from a fixture directory to a temp directory.
-fn copy_fixture_to_temp(fixture_name: &str, files: &[&str]) -> tempfile::TempDir {
+/// Returns `None` if any required model file (.onnx, .gguf, .safetensors) is missing
+/// (e.g., not downloaded in CI), so the test can skip gracefully.
+#[cfg(feature = "onnx-inspect")]
+fn copy_fixture_to_temp(fixture_name: &str, files: &[&str]) -> Option<tempfile::TempDir> {
     let src = fixtures_dir().join(fixture_name);
     let tmp = tempfile::TempDir::new().expect("create temp dir");
     for file in files {
         let src_file = src.join(file);
-        if src_file.exists() {
-            std::fs::copy(&src_file, tmp.path().join(file))
-                .unwrap_or_else(|e| panic!("Failed to copy {}: {}", src_file.display(), e));
+        if !src_file.exists() {
+            let is_model = file.ends_with(".onnx")
+                || file.ends_with(".gguf")
+                || file.ends_with(".safetensors");
+            if is_model {
+                eprintln!(
+                    "Skipping test: {} not found (run ./integration-tests/download.sh {})",
+                    src_file.display(),
+                    fixture_name
+                );
+                return None;
+            }
+            // Non-model files (config, vocab) are optional
+            continue;
         }
+        std::fs::copy(&src_file, tmp.path().join(file))
+            .unwrap_or_else(|e| panic!("Failed to copy {}: {}", src_file.display(), e));
     }
-    tmp
+    Some(tmp)
 }
 
 // ---------------------------------------------------------------------------
@@ -39,8 +59,11 @@ fn copy_fixture_to_temp(fixture_name: &str, files: &[&str]) -> tempfile::TempDir
 // ---------------------------------------------------------------------------
 
 #[test]
+#[cfg(feature = "onnx-inspect")]
 fn test_mnist_fixture_generates_image_classification() {
-    let tmp = copy_fixture_to_temp("mnist", &["model.onnx"]);
+    let Some(tmp) = copy_fixture_to_temp("mnist", &["model.onnx"]) else {
+        return;
+    };
 
     let (metadata, task_inference) =
         xybrid_sdk::metadata_gen::inspect_and_generate(tmp.path(), "", None)
@@ -190,11 +213,14 @@ fn write_gguf_string(f: &mut std::fs::File, s: &str) {
 // ---------------------------------------------------------------------------
 
 #[test]
+#[cfg(feature = "onnx-inspect")]
 fn test_all_minilm_fixture_generates_tokenize_and_meanpool() {
-    let tmp = copy_fixture_to_temp(
+    let Some(tmp) = copy_fixture_to_temp(
         "all-minilm",
         &["model.onnx", "tokenizer.json", "config.json", "vocab.txt"],
-    );
+    ) else {
+        return;
+    };
 
     let (metadata, task_inference) =
         xybrid_sdk::metadata_gen::inspect_and_generate(tmp.path(), "", None)
@@ -274,10 +300,13 @@ fn test_all_minilm_fixture_generates_tokenize_and_meanpool() {
 // ---------------------------------------------------------------------------
 
 #[test]
+#[cfg(feature = "onnx-inspect")]
 fn test_generate_metadata_writes_valid_json_for_mnist() {
     use xybrid_core::execution::ModelMetadata;
 
-    let tmp = copy_fixture_to_temp("mnist", &["model.onnx"]);
+    let Some(tmp) = copy_fixture_to_temp("mnist", &["model.onnx"]) else {
+        return;
+    };
 
     // generate_metadata writes model_metadata.json to disk
     let (metadata, _) = xybrid_sdk::metadata_gen::generate_metadata(tmp.path(), "")
@@ -357,13 +386,20 @@ fn test_generate_metadata_writes_valid_json_for_gguf() {
 // ---------------------------------------------------------------------------
 
 #[test]
+#[cfg(feature = "onnx-inspect")]
 fn test_model_id_derived_from_directory_name() {
+    let src = fixtures_dir().join("mnist/model.onnx");
+    if !src.exists() {
+        eprintln!("Skipping test: mnist model.onnx not downloaded");
+        eprintln!("Run: ./integration-tests/download.sh mnist");
+        return;
+    }
+
     // Copy mnist model.onnx to a temp dir with a specific name
     let parent = tempfile::TempDir::new().unwrap();
     let model_dir = parent.path().join("My Custom_Model.v2");
     std::fs::create_dir_all(&model_dir).unwrap();
 
-    let src = fixtures_dir().join("mnist/model.onnx");
     std::fs::copy(&src, model_dir.join("model.onnx")).unwrap();
 
     let (metadata, _) = xybrid_sdk::metadata_gen::inspect_and_generate(&model_dir, "", None)
@@ -378,8 +414,11 @@ fn test_model_id_derived_from_directory_name() {
 // ---------------------------------------------------------------------------
 
 #[test]
+#[cfg(feature = "onnx-inspect")]
 fn test_model_id_override() {
-    let tmp = copy_fixture_to_temp("mnist", &["model.onnx"]);
+    let Some(tmp) = copy_fixture_to_temp("mnist", &["model.onnx"]) else {
+        return;
+    };
 
     let (metadata, _) =
         xybrid_sdk::metadata_gen::inspect_and_generate(tmp.path(), "", Some("custom-id"))

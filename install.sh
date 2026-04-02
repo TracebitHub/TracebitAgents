@@ -40,16 +40,22 @@ detect_platform() {
 # --- Detect latest release ---
 
 get_latest_version() {
+  # Can't use /releases/latest — it may return cargokit precompiled_* releases.
+  # Instead, query the API for the first release whose tag starts with "v".
+  API_URL="https://api.github.com/repos/$REPO/releases"
+
   if command -v curl >/dev/null 2>&1; then
-    VERSION=$(curl -sI "https://github.com/$REPO/releases/latest" \
-      | grep -i "^location:" \
-      | sed 's/.*tag\///' \
-      | tr -d '\r\n')
+    VERSION=$(curl -sL "$API_URL" \
+      | grep '"tag_name":' \
+      | sed 's/.*"tag_name": *"//;s/".*//' \
+      | grep '^v' \
+      | head -1)
   elif command -v wget >/dev/null 2>&1; then
-    VERSION=$(wget -qS -O /dev/null "https://github.com/$REPO/releases/latest" 2>&1 \
-      | grep -i "^  location:" \
-      | sed 's/.*tag\///' \
-      | tr -d '\r\n')
+    VERSION=$(wget -qO- "$API_URL" \
+      | grep '"tag_name":' \
+      | sed 's/.*"tag_name": *"//;s/".*//' \
+      | grep '^v' \
+      | head -1)
   else
     error "Neither curl nor wget found. Please install one of them."
   fi

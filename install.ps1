@@ -18,8 +18,10 @@ switch ($Arch) {
 Write-Host "==> Xybrid CLI installer" -ForegroundColor Blue
 Write-Host ""
 
-$Release = Invoke-RestMethod -Uri "https://api.github.com/repos/$Repo/releases/latest" -Headers @{ "User-Agent" = "xybrid-installer" }
-$Version = $Release.tag_name
+# Can't use /releases/latest — it may return cargokit precompiled_* releases.
+# Instead, find the first release whose tag starts with "v".
+$Releases = Invoke-RestMethod -Uri "https://api.github.com/repos/$Repo/releases" -Headers @{ "User-Agent" = "xybrid-installer" }
+$Version = ($Releases | Where-Object { $_.tag_name -match "^v" } | Select-Object -First 1).tag_name
 
 if (-not $Version) {
     Write-Error "Could not determine latest version. Check https://github.com/$Repo/releases"

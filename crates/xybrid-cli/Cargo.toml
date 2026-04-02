@@ -38,10 +38,10 @@ llm-llamacpp = ["xybrid-sdk/llm-llamacpp"]
 
 # PLATFORM PRESETS (composed from individual features above)
 # This ensures #[cfg(feature = "...")] checks work correctly in this crate
-platform-android = ["ort-dynamic", "llm-llamacpp", "candle"]
-platform-ios = ["ort-download", "ort-coreml", "candle-metal", "candle-hub", "llm-llamacpp"]
-platform-macos = ["ort-download", "ort-coreml", "candle-metal", "candle-hub", "llm-llamacpp"]
-platform-desktop = ["ort-download", "llm-llamacpp"]
+platform-android = ["ort-dynamic", "llm-llamacpp", "candle", "huggingface"]
+platform-ios = ["ort-download", "ort-coreml", "candle-metal", "candle-hub", "llm-llamacpp", "huggingface"]
+platform-macos = ["ort-download", "ort-coreml", "candle-metal", "candle-hub", "llm-llamacpp", "huggingface"]
+platform-desktop = ["ort-download", "llm-llamacpp", "huggingface"]
 
 
 [dependencies]

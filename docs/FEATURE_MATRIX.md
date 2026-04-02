@@ -99,6 +99,8 @@ Platform presets are the **single source of truth** for platform-specific featur
 | **platform-macos** | macOS (arm64, x86_64) | `ort-download`, `ort-coreml`, `candle-metal`, `llm-llamacpp` | Same as iOS - unified Apple platform features |
 | **platform-desktop** | Linux, Windows | `ort-download`, `llm-llamacpp` | Static ORT linking; llama.cpp for LLM inference (unified across all platforms) |
 
+> **Note**: The CLI (`xybrid-cli`) adds `huggingface` to all its platform presets so `xybrid run --huggingface` works in release builds. SDK/FFI presets do not include `huggingface` by default — add it individually if needed.
+
 ### Why llm-mistral is NOT on Android
 
 mistral.rs compiles with `+fp16` target feature on ARM, which requires ARMv8.2-A FP16 extensions. Many Android devices (including popular Samsung and Pixel devices) do not have these extensions, causing **SIGILL** (illegal instruction) crashes at runtime.

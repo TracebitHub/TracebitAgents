@@ -80,6 +80,7 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@3c5f7ea28cd621ae0bf5283f0e981fb97b8a7af9 # stable
         with:
+          toolchain: stable
           targets: >-
             aarch64-apple-ios,
             aarch64-apple-ios-sim,
@@ -144,6 +145,7 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@3c5f7ea28cd621ae0bf5283f0e981fb97b8a7af9 # stable
         with:
+          toolchain: stable
           targets: >-
             aarch64-linux-android,
             armv7-linux-androideabi,
@@ -277,6 +279,7 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@3c5f7ea28cd621ae0bf5283f0e981fb97b8a7af9 # stable
         with:
+          toolchain: stable
           targets: ${{ matrix.rust_targets }}
 
       - name: Setup sccache
@@ -404,6 +407,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@3c5f7ea28cd621ae0bf5283f0e981fb97b8a7af9 # stable
         with:
+          toolchain: stable
           targets: ${{ matrix.target }}
 
       - name: Setup sccache

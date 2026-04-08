@@ -1,395 +1,298 @@
 <div align="center">
-<p align="center">
-  <a href="./README.md">English</a> · <a href="./README.zh-CN.md">简体中文</a>
-</p>
 
+# Tracebit Analytics
 
-<p align="center">
-  <img src="./docs/logo.jpg" alt="Xybrid Logo" width="180"/>
-</p>
+**AI-driven crypto intelligence workspace for token analysis, wallet intelligence, agent execution, and integrated on-chain decision flows**
 
-<h1 align="center">Xybrid</h1>
+[![Web App](https://img.shields.io/badge/Web%20App-Open-3b82f6?style=for-the-badge&logo=googlechrome&logoColor=white)](https://твоя-web-app-ссылка)
+[![Telegram Mini App](https://img.shields.io/badge/Telegram%20Mini%20App-Launch-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/твой_мини_апп)
+[![Docs](https://img.shields.io/badge/Docs-Read-8b5cf6?style=for-the-badge&logo=readthedocs&logoColor=white)](https://твои-docs-ссылка)
+[![X.com](https://img.shields.io/badge/X.com-Follow-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/твой_аккаунт)
+[![Telegram Community](https://img.shields.io/badge/Telegram%20Community-Join-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/твоя_группа_или_канал)
 
-<p align="center">
-  <strong>Run LLMs, ASR, and TTS natively in apps and games.</strong><br/>
-  Rust core · iOS · Android · Flutter · Unity<br/>
-  Private, offline, no cloud required.
-</p>
-
-<p align="center">
-  <a href="https://docs.xybrid.dev">Documentation</a> ·
-  <a href="#sdks">SDKs</a> ·
-  <a href="https://www.xybrid.ai/models">Models</a> ·
-  <a href="https://discord.gg/YhFHHkhbad">Join Discord</a> ·
-  <a href="https://x.com/xybrid_ai">Follow on X</a> ·
-  <a href="https://github.com/xybrid-ai/xybrid/issues">Issues</a>
-</p>
-
-<p align="center">
-
-[![Website][website-shield]][website-url]
-[![Discord][discord-shield]][discord-url]
-[![Twitter][twitter-shield]][twitter-url]
-<br>
-[![License][license-shield]][license-url]
-[![Build][build-shield]][build-url]
-[![OpenSSF Scorecard][scorecard-shield]][scorecard-url]
-[![Stars][stars-shield]][stars-url]
-[![Release][release-shield]][release-url]
-[![Release Date][release-date-shield]][release-url]
-<br>
-[![pub.dev][pubdev-shield]][pubdev-url]
-[![Maven Central][maven-shield]][maven-url]
-[![Visitors](https://visitor-badge.laobi.icu/badge?page_id=xybrid-ai.xybrid)](https://github.com/xybrid-ai/xybrid)
-
-</p>
-
-[website-shield]: https://img.shields.io/badge/xybrid.ai-4285F4?style=flat
-[website-url]: https://www.xybrid.ai/
-[discord-shield]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2FYhFHHkhbad%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&logo=discord&logoColor=white&label=Discord&color=5865F2&suffix=%20members
-[discord-url]: https://discord.gg/YhFHHkhbad
-[twitter-shield]: https://img.shields.io/twitter/follow/xybrid_ai
-[twitter-url]: https://x.com/xybrid_ai
-[license-shield]: https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=flat
-[license-url]: https://opensource.org/licenses/Apache-2.0
-[build-shield]: https://img.shields.io/github/actions/workflow/status/xybrid-ai/xybrid/ci.yml?branch=master&style=flat
-[build-url]: https://github.com/xybrid-ai/xybrid/actions
-[scorecard-shield]: https://api.scorecard.dev/projects/github.com/xybrid-ai/xybrid/badge
-[scorecard-url]: https://scorecard.dev/viewer/?uri=github.com/xybrid-ai/xybrid
-[stars-shield]: https://img.shields.io/github/stars/xybrid-ai/xybrid?style=flat
-[stars-url]: https://github.com/xybrid-ai/xybrid/stargazers
-[release-shield]: https://img.shields.io/github/v/release/xybrid-ai/xybrid?style=flat&sort=semver
-[release-url]: https://github.com/xybrid-ai/xybrid/releases
-[release-date-shield]: https://img.shields.io/github/release-date/xybrid-ai/xybrid?style=flat
-[pubdev-shield]: https://img.shields.io/pub/v/xybrid_flutter?style=flat&label=pub.dev
-[pubdev-url]: https://pub.dev/packages/xybrid_flutter
-[maven-shield]: https://img.shields.io/maven-central/v/ai.xybrid/xybrid-kotlin?style=flat&label=Maven%20Central
-[maven-url]: https://central.sonatype.com/artifact/ai.xybrid/xybrid-kotlin
 </div>
 
-<p align="center">
-  <img src="docs/demo-desktop.gif" alt="Desktop demo" width="540">&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/demo-android.gif" alt="Android demo" width="150">
-</p>
+> [!IMPORTANT]
+> Tracebit is built around one shared workspace across Web App, Telegram Mini App, Browser Extension, and API integrations
 
+> [!TIP]
+> The platform is designed for fast token checks, wallet behavior analysis, agent-based research, and signal workflows without switching between disconnected tools
 
+## The Primitive
 
-## Start Here
+Tracebit Analytics is an AI-native analytics layer for crypto markets
 
-| Goal | Path |
-|------|------|
-| Fastest demo (2 min) | [Install CLI →](#install) |
-| Build a mobile or desktop app | [Flutter SDK →](bindings/flutter/) |
-| Add AI NPCs to your game | [Unity SDK →](bindings/unity/) and try the [3D tavern demo](https://github.com/xybrid-ai/xybrid-unity-tavern) |
-| Android native | [Kotlin SDK →](bindings/kotlin/) |
-| Rust / embedded | [Core crate →](crates/) |
----
+It acts as a reusable building block inside a trading or monitoring stack where token data, wallet behavior, agent execution, alerts, and credits are unified under one system
 
-<p align="center">
-  <img src="docs/game-demo.gif" alt="Game demo" width="540">
-</p>
+Instead of treating analytics, research, and execution as separate products, Tracebit combines them into one operational surface that can be used directly by traders or embedded into custom infrastructure by builders
 
-## SDKs
+| Primitive | Role inside a system |
+|---|---|
+| Token intelligence | Evaluates liquidity, volume, holder structure, flows, and supply behavior |
+| Wallet intelligence | Profiles PnL, risk allocation, timing patterns, and behavioral consistency |
+| Agents layer | Converts raw data into summaries, ratings, signals, and deeper processing tasks |
+| Credits system | Controls transparent usage across scans, research, and agent runs |
+| API + webhooks | Exposes Tracebit as an integration-ready intelligence backend |
 
-Xybrid is a **Rust-powered runtime** with native bindings for every major platform.
+## Product View
 
-| SDK | Platforms | Install | Status | Sample |
-|-----|-----------|---------|--------|--------|
-| **[Flutter](bindings/flutter/)** | iOS, Android, macOS, Linux, Windows | [pub.dev](https://pub.dev/packages/xybrid_flutter) | Available | [README](examples/flutter/README.md) |
-| **[Unity](bindings/unity/)** | macOS, Windows, Linux, iOS, Android | [See below](#install) | Available | [Unity 3D AI tavern](https://github.com/xybrid-ai/xybrid-unity-tavern) |
-| **[Swift](bindings/apple/)** | iOS, macOS | Swift Package Manager | Coming Soon | [README](examples/ios/README.md) |
-| **[Kotlin](bindings/kotlin/)** | Android | Maven Central | Available | [README](examples/android/README.md) |
-| **[CLI](https://github.com/xybrid-ai/xybrid/releases)** | macOS, Linux, Windows | `curl -sSL .../install.sh \| sh` | Available | — |
-| **[Rust](crates/)** | All | `xybrid-core` / `xybrid-sdk` | Available | — |
+Tracebit is one workspace with multiple operational surfaces around it
 
-Every SDK wraps the same Rust core — identical model support and behavior across all platforms.
+```mermaid
+flowchart TD
+    U[Connected Wallet Identity] --> WS[Tracebit Shared Workspace]
 
-### Install
+    subgraph Clients[Access Surfaces]
+        WA[Web App]
+        TG[Telegram Mini App]
+        EX[Browser Extension]
+        API[API Integrations]
+    end
 
-**CLI** — one-liner (no Rust required):
+    WA --> WS
+    TG --> WS
+    EX --> WS
+    API --> WS
 
-```bash
-# macOS / Linux
-curl -sSL https://raw.githubusercontent.com/xybrid-ai/xybrid/master/install.sh | sh
+    subgraph Core[Core Intelligence Layer]
+        TI[Token Intelligence]
+        WI[Wallet Intelligence]
+        AG[Analytics Agent]
+        RG[Research Agent]
+        SG[Signals and Ratings]
+        JB[Jobs and Processing Tasks]
+    end
+
+    WS --> TI
+    WS --> WI
+    WS --> AG
+    WS --> RG
+    AG --> SG
+    RG --> SG
+    AG --> JB
+    RG --> JB
+
+    subgraph State[Shared State]
+        WL[Watchlists]
+        AL[Alerts]
+        HS[History]
+        CR[Credits and Limits]
+        TK[$TRACEBIT Utility]
+    end
+
+    WS --> WL
+    WS --> AL
+    WS --> HS
+    WS --> CR
+    TK --> CR
+
+    subgraph Output[Action Layer]
+        UX[Structured Insights]
+        WH[Webhook Events]
+        EXE[Manual On-Chain Execution]
+        BOT[Custom Bots and Dashboards]
+    end
+
+    SG --> UX
+    JB --> WH
+    WS --> EXE
+    API --> BOT
+    WH --> BOT
 ```
 
-```powershell
-# Windows (PowerShell)
-irm https://raw.githubusercontent.com/xybrid-ai/xybrid/master/install.ps1 | iex
-```
+> [!NOTE]
+> All surfaces share the same backend, credits balance, watchlists, alerts, and agent history, so configuration happens once and carries across the full product
 
-Or with Rust:
+## Input → Output
 
-```bash
-cargo install --git https://github.com/xybrid-ai/xybrid xybrid-cli
-```
+One practical Tracebit flow looks like this
 
-Or download a binary directly from [Releases](https://github.com/xybrid-ai/xybrid/releases).
+| Input | Processing | Output |
+|---|---|---|
+| A Solana token address | Token analytics agent gathers liquidity, volume, holder concentration, whale flows, and volatility | A structured summary with risk score, flags, and AI explanation |
+| A wallet address | Wallet analytics agent evaluates PnL, win rate, position sizing, drawdowns, and behavior | A performance profile with strategy patterns and risk observations |
+| A narrative request | Research agent monitors relevant news, social context, and market signals | A concise brief with impact framing and follow-up relevance |
 
-See the full [Installation Guide](docs/INSTALLATION.md) for platform features, hardware acceleration, and CLI reference.
+Example
 
-**Unity** — Package Manager → Add from git URL:
+`Token address → analytics_token_v1 → risk summary, liquidity snapshot, holder structure, whale flow context, alert-ready metadata`
 
-```bash
-https://github.com/xybrid-ai/xybrid.git#upm
-```
+## Fastest Integration
 
-> The `upm` branch contains pre-built native libraries for all platforms.
-> To pin a specific version: `https://github.com/xybrid-ai/xybrid.git#upm/v0.1.0-beta8`
+The fastest integration path is to call the Agents API, run a job asynchronously, and fetch the result when it completes
 
-**Flutter** — add to your `pubspec.yaml`:
+> [!WARNING]
+> All API access requires a scoped API key from the Tracebit dashboard and every run consumes credits based on processing depth
 
-```yaml
-dependencies:
-  xybrid_flutter: ^0.1.0
-```
+### Minimal working example
 
-**Kotlin (Android)** — add to your `build.gradle.kts`:
+```ts
+const BASE_URL = 'https://api.tracebit.ai/v1'
 
-```gradle
-dependencies {
-    implementation("ai.xybrid:xybrid-kotlin:0.1.0-beta10")
+async function runTracebitTokenAnalysis(apiKey: string, address: string) {
+  const runResponse = await fetch(`${BASE_URL}/agents/run`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      agent_id: 'analytics_token_v1',
+      mode: 'async',
+      input: {
+        chain: 'solana',
+        address,
+        depth: 'standard'
+      },
+      metadata: {
+        source: 'readme-example'
+      }
+    })
+  })
+
+  if (!runResponse.ok) {
+    throw new Error(`Run request failed with status ${runResponse.status}`)
+  }
+
+  const runData = await runResponse.json()
+  const jobId = runData.job_id
+
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    const jobResponse = await fetch(`${BASE_URL}/jobs/${jobId}`, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Accept': 'application/json'
+      }
+    })
+
+    if (!jobResponse.ok) {
+      throw new Error(`Job request failed with status ${jobResponse.status}`)
+    }
+
+    const jobData = await jobResponse.json()
+
+    if (jobData.status === 'completed') {
+      return jobData.result
+    }
+
+    if (jobData.status === 'failed') {
+      throw new Error('Tracebit job failed')
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 1500))
+  }
+
+  throw new Error('Timed out waiting for Tracebit job completion')
 }
 ```
 
----
+## Common Embed Paths
 
-## Quick Start
+Tracebit is designed to fit into different integration patterns without changing the core intelligence model
 
-See each SDK's README for platform-specific setup: [Flutter](bindings/flutter/) · [Unity](bindings/unity/) · [Swift](bindings/apple/) · [Kotlin](bindings/kotlin/) · [Rust](crates/)
+| Embed path | Typical use |
+|---|---|
+| Backend / microservice | Central analytics service for bots, dashboards, or execution systems |
+| Script / job | Scheduled research briefs, batch token checks, wallet reviews |
+| Worker / queue | Asynchronous processing for heavier agent runs and webhook-driven workflows |
+| App / frontend | In-app token scans, wallet profile views, and user-triggered research flows |
 
-### Single Model
+### Backend / microservice
 
-Run a model in one line from the CLI, or three lines from any SDK:
+A service receives input from your product, calls Tracebit, normalizes the output, and passes the result to your own internal logic
 
-**CLI:**
-```sh
-xybrid run kokoro-82m --input "Hello world" -o output.wav
-```
+### Script / job
 
-**Flutter:**
-```dart
-final model = await Xybrid.model('kokoro-82m').load();
-final result = await model.run(XybridEnvelope.text('Hello world'));
-// result → 24kHz WAV audio
-```
+A scheduled script can request daily research updates, refresh tracked wallets, or store analytics snapshots in a database
 
-**Kotlin:**
-```kotlin
-val model = XybridModelLoader.fromRegistry("kokoro-82m").load()
-val result = model.run(Envelope.text("Hello world"))
-// result → 24kHz WAV audio
-```
+### Worker / queue
 
-**Swift:**
-```swift
-let model = try ModelLoader.fromRegistry(modelId: "kokoro-82m").load()
-let result = try model.run(envelope: Envelope.text("Hello world"))
-// result → 24kHz WAV audio
-```
+Queued tasks are a natural fit for deeper analysis, retries, and event-driven flows where results land through webhooks instead of tight polling loops
 
-**Unity (C#):**
-```csharp
-var model = XybridClient.LoadModel("kokoro-82m");
-var result = model.Run(Envelope.Text("Hello world"));
-// result → 24kHz WAV audio
-```
+### App / frontend
 
-**Rust:**
-```rust
-let model = Xybrid::model("kokoro-82m").load()?;
-let result = model.run(&Envelope::text("Hello world"))?;
-// result → 24kHz WAV audio
-```
+The frontend can trigger Tracebit jobs directly through your backend and display structured outputs such as risk scores, summaries, and alert states
 
-### Pipelines
+## Composable Parts
 
-Chain models together — build a voice assistant in 3 lines of YAML:
+Tracebit can be thought of as a set of composable modules rather than a single monolithic feature
 
-```yaml
-# voice-assistant.yaml
-name: voice-assistant
-stages:
-  - model: whisper-tiny    # Speech → text
-  - model: qwen2.5-0.5b    # Process with LLM
-  - model: kokoro-82m      # Text → speech
-```
+| Module | What it does | Common pairing |
+|---|---|---|
+| Token Analytics | On-chain token structure and risk profile | Signals, watchlists, execution views |
+| Wallet Analytics | Performance and behavior profiling | Trader discovery, portfolio review |
+| Analytics Agent | Unified analysis layer | Dashboards, bots, saved workflows |
+| Research Agent | Narrative and market context | Briefings, alerts, Telegram delivery |
+| Jobs API | Async processing model | Queues, workers, background tasks |
+| Webhooks | Real-time event delivery | Bots, automation tools, notifications |
+| Credits Layer | Usage control and monetization | Plans, limits, token utility |
 
-**CLI:**
-```sh
-xybrid run voice-assistant.yaml --input question.wav -o response.wav
-```
+> [!TIP]
+> The cleanest implementation pattern is to treat Tracebit as an intelligence service and keep execution, routing, and business logic on your side
 
-**Flutter:**
-```dart
-final pipeline = Xybrid.pipeline(yaml: yamlString);
-final result = await pipeline.run(XybridEnvelope.audio(bytes: audioBytes, sampleRate: 16000));
-```
+## Configuration Surface
 
-**Kotlin:**
-```kotlin
-// Pipeline support coming soon — use single model loading for now
-```
+Tracebit exposes a practical surface for tuning behavior without forcing a full custom stack
 
-**Swift:**
-```swift
-// Pipeline support coming soon — use single model loading for now
-```
+| Area | What can be configured |
+|---|---|
+| Agent runs | `agent_id`, `mode`, `chain`, `address`, `depth`, optional metadata |
+| API keys | Scope, rotation, read or execution permissions, quotas |
+| Alerts | Conditions, thresholds, destinations, notification behavior |
+| Webhooks | Endpoint, secret, event subscription, retry handling |
+| Plans and usage | Credit allocation, limits, concurrency, access level |
+| Workspace state | Watchlists, tracked wallets, saved preferences, cross-surface continuity |
 
-**Unity (C#):**
-```csharp
-// Pipeline support coming soon — use single model loading for now
-```
+Configuration can stay light for early integrations or expand into a full operational layer with alerts, saved filters, and external automation
 
-**Rust:**
-```rust
-let pipeline = Xybrid::pipeline(&yaml_string).load()?;
-pipeline.load_models()?;
-let result = pipeline.run(&Envelope::audio(audio_bytes))?;
-```
----
+## Production Notes
 
-## Supported Models
+Tracebit is designed for real usage in trading and monitoring environments, so integration should be approached as production infrastructure rather than a demo utility
 
-All models run entirely on-device. No cloud, no API keys required. Browse the full registry with `xybrid models list`.
+| Area | Notes |
+|---|---|
+| Transport | HTTPS with JSON request and response format |
+| Authentication | Bearer API key model with scoped permissions |
+| Execution model | Supports sync and async runs, with jobs recommended for heavier tasks |
+| Delivery model | Webhooks use at-least-once delivery, so consumers should be idempotent |
+| Rate limits | Applied per key with headers such as `X-RateLimit-Remaining` and `Retry-After` |
+| Storage model | Shared state across Web App, Telegram, Extension, and API |
+| Security model | Non-custodial wallet flow with manual signing for transactions |
 
-### Start with these
+> [!CAUTION]
+> Webhook consumers should always verify `X-Tracebit-Signature`, store processed event ids, and handle duplicate delivery safely
 
-| Model | Type | Params | Why start here |
-|-------|------|--------|----------------|
-| **SmolLM2 360M** | LLM | 360M | Best quality-to-size ratio for any device |
-| **Kokoro 82M** | TTS | 82M | High-quality speech, 24 voices, fast |
-| **Whisper Tiny** | ASR | 39M | Accurate multilingual transcription |
+## Known Constraints
 
-### Speech-to-Text
+Tracebit is powerful, but it is intentionally scoped
 
-| Model | Params | Format | Description |
-|-------|--------|--------|-------------|
-| Whisper Tiny | 39M | SafeTensors | Multilingual transcription (Candle runtime) |
-| Wav2Vec2 Base | 95M | ONNX | English ASR with CTC decoding |
+| Constraint | Practical implication |
+|---|---|
+| Solana-first support | Other networks are future expansion, not current default coverage |
+| Credit-based execution | Usage must be budgeted for scans, research, and deeper jobs |
+| Manual on-chain confirmation | Execution flows still require wallet approval |
+| Async variability | Heavier jobs may complete later and should be handled through jobs or webhooks |
+| No custody model | Tracebit cannot move funds or bypass wallet security |
+| Not financial advice | Outputs are analytical guidance, not guaranteed outcomes |
 
-### Text-to-Speech
+Tracebit works best when used as a structured intelligence layer for decision-making, monitoring, and workflow extension rather than as a fully autonomous trading system
 
-| Model | Params | Format | Description |
-|-------|--------|--------|-------------|
-| Kokoro 82M | 82M | ONNX | High-quality, 24 natural voices |
-| KittenTTS Nano | 15M | ONNX | Ultra-lightweight, 8 voices |
+## Fit → Integration → Extension
 
-### Language Models
+### Fit
 
-| Model | Params | Format | Description |
-|-------|--------|--------|-------------|
-| Gemma 3 1B | 1B | GGUF Q4_K_M | Google's mobile-optimized LLM |
-| LFM2.5 350M | 354M | GGUF Q4_K_M | Liquid AI's hybrid conv+attention, 9 languages, tool calling |
-| Llama 3.2 1B | 1B | GGUF Q4_K_M | Meta's general purpose, 128K context |
-| Qwen 2.5 0.5B | 500M | GGUF Q4_K_M | Compact on-device chat |
-| Qwen 3.5 0.8B | 800M | GGUF Q4_K_M | Latest Qwen with reasoning (thinking mode) |
-| Qwen 3.5 2B | 2B | GGUF Q4_K_M | Larger Qwen 3.5 with extended reasoning |
-| SmolLM2 360M | 360M | GGUF Q4_K_M | Best tiny LLM, excellent quality/size ratio |
+Tracebit fits teams and builders who need a reusable intelligence core for token analysis, wallet behavior, AI summaries, research context, and alert workflows
 
-### Coming Soon
+### Integration
 
-| Model | Type | Params | Priority | Status |
-|-------|------|--------|----------|--------|
-| Phi-4 Mini | LLM | 3.8B | P2 | Spec Ready (first multi-quant: Q4, Q8, FP16) |
-| Qwen3 0.6B | LLM | 600M | P2 | Planned |
-| Trinity Nano | LLM (MoE) | 6B (1B active) | P2 | Planned |
-| LFM2-VL 700M | Vision+LLM | 700M | P2 | Planned |
-| Nomic Embed Text v1.5 | Embeddings | 137M | P1 | Blocked (needs Tokenize/MeanPool steps) |
-| LFM2-VL 450M | Vision | 450M | P2 | Planned |
-| Whisper Tiny CoreML | ASR | 39M | P2 | Planned |
-| Qwen3-TTS 0.6B | TTS | 600M | P2 | Blocked (needs custom SafeTensors runtime) |
-| Chatterbox Turbo | TTS | 350M | P3 | Blocked (needs ModelGraph template) |
+The shortest path is one API key, one agent call, one job result, and optionally one webhook endpoint for production-grade event handling
 
-### Bring Your Own Model (Experimental)
+### Extension
 
-> **Note**: BYM support is experimental. The `model_metadata.json` schema is stable, but the AI-assisted tooling (`/xybrid-init`) is under active development and may not handle all model types yet.
+Once the core is connected, Tracebit can sit beneath Telegram bots, internal dashboards, strategy monitors, execution assistants, browser experiences, and no-code automation flows
 
-Xybrid works with **any** ONNX, GGUF, or SafeTensors model. You just need a `model_metadata.json` that tells xybrid how to run it.
+> [!IMPORTANT]
+> Tracebit is non-custodial by design and all market decisions remain with the user
 
-**With an AI assistant** (Claude Code, Codex, etc.):
-
-```sh
-# Install xybrid skills into your project
-curl -sSL https://raw.githubusercontent.com/xybrid-ai/xybrid/master/tools/scripts/install-skills.sh | sh
-
-# Generate model_metadata.json from a HuggingFace model
-claude /xybrid-init hexgrad/Kokoro-82M-v1.0-ONNX
-```
-
-Skills are agent-agnostic and live in [`agents/skills/`](agents/skills/). The installer symlinks them for Claude Code (`.claude/skills`) and Codex (`.codex/skills`).
-
-**Manually** — create `model_metadata.json` in your model directory:
-
-```json
-{
-  "model_id": "my-model",
-  "version": "1.0",
-  "execution_template": { "type": "Onnx", "model_file": "model.onnx" },
-  "preprocessing": [],
-  "postprocessing": [],
-  "files": ["model.onnx"],
-  "metadata": { "task": "text-generation" }
-}
-```
-
-See the [model metadata docs](docs/sdk/API_REFERENCE.md) for the full schema, or look at existing examples in [`integration-tests/fixtures/models/`](integration-tests/fixtures/models/).
-
----
-
-## Features
-
-| Capability | iOS | Android | macOS | Linux | Windows |
-|------------|-----|---------|-------|-------|---------|
-| Speech-to-Text | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Text-to-Speech | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Language Models | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Vision Models | 🔜 | 🔜 | 🔜 | 🔜 | 🔜 |
-| Embeddings | 🔜 | 🔜 | 🔜 | 🔜 | 🔜 |
-| Pipeline Orchestration | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Model Download & Caching | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Hardware Acceleration | Metal, ANE | CPU | Metal, ANE | CUDA | CUDA |
-
-**SDK pipeline support:** Flutter ✅ · Rust ✅ · Kotlin 🔜 · Swift 🔜 · Unity 🔜
-
----
-
-## Why Xybrid?
-
-- **Privacy first** — All inference runs on-device. Your data never leaves the device.
-- **Offline capable** — No internet required after initial model download.
-- **Cross-platform** — One API across iOS, Android, macOS, Linux, and Windows.
-- **Pipeline orchestration** — Chain models together (ASR → LLM → TTS) in a single call.
-- **Automatic optimization** — Hardware acceleration on Apple Neural Engine, Metal, and CUDA.
-
-### How it compares
-
-| | Xybrid | Ollama | llama.cpp | ONNX Runtime |
-|---|---|---|---|---|
-| Mobile (iOS/Android) | ✅ | ❌ | ❌ | ✅ |
-| Game engine (Unity) | ✅ | ❌ | ❌ | ❌ |
-| Multi-stage pipelines | ✅ | ❌ | ❌ | ❌ |
-| ASR + TTS + LLM in one SDK | ✅ | ❌ | ❌ | ❌ |
-| Runs in-process (no server) | ✅ | ❌ | ✅ | ✅ |
-| No cloud required | ✅ | ✅ | ✅ | ✅ |
-
----
-
-## Community
-
-- [Documentation](https://docs.xybrid.dev)
-- [Discord](https://discord.gg/YhFHHkhbad)
-- [X (Twitter)](https://x.com/xybrid_ai)
-- [GitHub Issues](https://github.com/xybrid-ai/xybrid/issues)
-
-## Contributing
-
-We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on setting up your development environment, submitting pull requests, and adding new models.
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=xybrid-ai/xybrid&type=date&legend=bottom-right)](https://www.star-history.com/#xybrid-ai/xybrid&type=date&legend=bottom-right)
-
-## License
-
-Apache License 2.0 — see [LICENSE](./LICENSE) for details.
+> [!NOTE]
+> This README is intentionally builder-oriented and focused on how Tracebit plugs into real systems quickly
